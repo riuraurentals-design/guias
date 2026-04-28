@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Activities · Jávea &amp; Costa Blanca · Riu Rau Rentals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--w:#FAFAF8;--tx:#2C2825;--mu:#6B6760;--li:#9A9690;--am:#C4874A;--aml:#D9A870;--amd:#9A6030;--amBg:rgba(196,135,74,.1);--amBg2:rgba(196,135,74,.18);--sage:#7B9E87;--cr:#E4DDD3;--bg2:#F2EDE4;--bg3:#EBE4D8;--bg4:#E3DAC9;--gu:#F5F2EE;--r:12px;--rl:20px;--ease:cubic-bezier(.4,0,.2,1);--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--script:'Caveat',cursive}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--w);color:var(--tx);max-width:480px;margin:0 auto;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:60px}
+img{display:block;max-width:100%}a{text-decoration:none;color:inherit}button{cursor:pointer;border:none;background:none;font-family:var(--sans)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease)}.rv.in{opacity:1;transform:none}.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+
+/* Back bar */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(250,250,248,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--cr);display:flex;align-items:center;gap:12px;padding:14px 20px}
+.btn-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--am);padding:6px 12px;border-radius:50px;border:1px solid var(--cr);background:var(--gu);transition:.2s var(--ease)}.btn-back:active{transform:scale(.97);background:var(--bg2)}
+.topbar-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--tx)}
+
+/* Hero */
+.act-hero{position:relative;height:280px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.act-hero-bg{position:absolute;inset:0;background:url('https://tripkay.com/destination-guides/wp-content/uploads/2016/03/vista-aerea-javea-en-costa-blanca.jpg') center/cover no-repeat}
+.act-hero-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(44,40,37,0) 20%,rgba(44,40,37,.85) 100%)}
+.act-hero-c{position:relative;z-index:1;padding:0 24px 24px}
+.act-hero-ey{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--aml);margin-bottom:6px}
+.act-hero-h{font-family:var(--serif);font-size:2.2rem;font-weight:300;color:var(--w);line-height:1.05;margin-bottom:4px}
+.act-hero-h em{font-style:italic;color:var(--aml)}
+.act-hero-sub{font-size:12px;color:rgba(250,250,248,.55)}
+
+/* Category nav */
+.cat-nav{display:flex;gap:8px;overflow-x:auto;padding:16px 20px;scrollbar-width:none;background:var(--w);border-bottom:1px solid var(--cr);position:sticky;top:53px;z-index:90}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-chip{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:50px;border:1px solid var(--cr);background:var(--w);font-size:12px;font-weight:500;color:var(--mu);cursor:pointer;transition:all .2s var(--ease);white-space:nowrap}
+.cat-chip:active{transform:scale(.97)}
+.cat-chip.on{background:var(--amBg);border-color:rgba(196,135,74,.3);color:var(--amd)}
+.cat-chip-ico{font-size:14px}
+
+/* Section */
+.cat-sec{padding:32px 24px;display:none}
+.cat-sec.active{display:block}
+.cat-sec-hdr{margin-bottom:24px}
+.cat-sec-ey{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--am);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cat-sec-ey::before{content:'';width:18px;height:1px;background:var(--am)}
+.cat-sec-h{font-family:var(--serif);font-size:1.8rem;font-weight:400;line-height:1.1;margin-bottom:8px}
+.cat-sec-h em{font-style:italic;color:var(--am)}
+.cat-sec-intro{font-size:13px;color:var(--mu);line-height:1.65}
+.cat-sec-note{font-size:11px;color:var(--li);font-style:italic;margin-top:8px;padding:10px 14px;background:var(--gu);border-radius:8px;border-left:2px solid var(--am)}
+
+/* Activity card */
+.acard{background:var(--w);border:1px solid var(--cr);border-radius:var(--rl);overflow:hidden;margin-bottom:14px}
+.acard-img{height:160px;background-size:cover;background-position:center;position:relative}
+.acard-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(44,40,37,.6) 100%)}
+.acard-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;z-index:1}
+.acard-badge{font-size:10px;font-weight:500;padding:4px 10px;border-radius:50px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.acard-badge.zone{background:rgba(250,250,248,.85);color:var(--tx)}
+.acard-badge.diff{background:rgba(196,135,74,.85);color:#fff}
+.acard-badge.fav{background:rgba(123,158,135,.85);color:#fff}
+.acard-body{padding:16px}
+.acard-name{font-family:var(--serif);font-size:1.2rem;font-weight:400;margin-bottom:4px;line-height:1.2}
+.acard-sub{font-size:12px;color:var(--li);margin-bottom:8px}
+.acard-desc{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:12px}
+.acard-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.acard-pill{font-size:10px;padding:4px 10px;border-radius:50px;background:var(--gu);color:var(--mu);border:1px solid var(--cr)}
+.acard-pill.h{background:var(--amBg);color:var(--amd);border-color:rgba(196,135,74,.2)}
+.acard-acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn-a{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:500;transition:.2s var(--ease);text-decoration:none}
+.btn-a.primary{background:var(--am);color:#fff;border:1px solid var(--am)}.btn-a.primary:active{background:var(--amd)}
+.btn-a.secondary{background:var(--gu);color:var(--tx);border:1px solid var(--cr)}.btn-a.secondary:active{background:var(--bg2)}
+
+/* Fiestas month selector */
+.month-tabs{display:flex;gap:6px;overflow-x:auto;padding:0 0 16px;scrollbar-width:none;margin-bottom:16px}
+.month-tabs::-webkit-scrollbar{display:none}
+.month-chip{flex-shrink:0;padding:8px 14px;border-radius:50px;border:1px solid var(--cr);background:var(--w);font-size:12px;font-weight:500;color:var(--mu);cursor:pointer;transition:all .2s var(--ease)}
+.month-chip.on{background:var(--amBg);border-color:rgba(196,135,74,.3);color:var(--amd)}
+.month-content{display:none}
+.month-content.active{display:block}
+.fiesta-card{background:var(--gu);border:1px solid var(--cr);border-radius:var(--r);padding:14px;margin-bottom:8px}
+.fiesta-name{font-size:14px;font-weight:500;margin-bottom:3px}
+.fiesta-where{font-size:11px;color:var(--am);margin-bottom:6px;font-weight:500}
+.fiesta-desc{font-size:12px;color:var(--mu);line-height:1.55}
+.fiesta-note{font-size:10px;color:var(--li);font-style:italic;margin-top:6px}
+
+/* Footer */
+.act-footer{text-align:center;padding:32px 24px;border-top:1px solid var(--cr)}
+.act-footer-firma{font-family:var(--script);font-size:1.5rem;color:var(--am);margin-bottom:4px}
+.act-footer-brand{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--li)}
+</style>
+</head>
+<body>
+<!-- Topbar -->
+<div class="topbar">
+<a href="javascript:history.back()" class="btn-back">← Back</a>
+<span class="topbar-title">Activities</span>
+</div>
+
+<!-- Hero -->
+<div class="act-hero">
+<div class="act-hero-bg"></div>
+<div class="act-hero-grad"></div>
+<div class="act-hero-c">
+<p class="act-hero-ey">Jávea · Costa Blanca</p>
+<h1 class="act-hero-h">Things to <em>do</em></h1>
+<p class="act-hero-sub">9 categories · over 50 plans</p>
+</div>
+</div>
+
+<!-- Category nav -->
+<div class="cat-nav" id="catNav">
+<button class="cat-chip on" onclick="showCat('playas',this)"><span class="cat-chip-ico">🏖️</span> Beaches</button>
+<button class="cat-chip" onclick="showCat('acuaticos',this)"><span class="cat-chip-ico">🚣</span> Water sports</button>
+<button class="cat-chip" onclick="showCat('senderismo',this)"><span class="cat-chip-ico">🥾</span> Hiking</button>
+<button class="cat-chip" onclick="showCat('cultura',this)"><span class="cat-chip-ico">🏛️</span> Culture</button>
+<button class="cat-chip" onclick="showCat('fiestas',this)"><span class="cat-chip-ico">🎉</span> Festivals</button>
+<button class="cat-chip" onclick="showCat('gastronomia',this)"><span class="cat-chip-ico">🍊</span> Gastronomy</button>
+<button class="cat-chip" onclick="showCat('familia',this)"><span class="cat-chip-ico">👨‍👩‍👧</span> Family</button>
+<button class="cat-chip" onclick="showCat('romantico',this)"><span class="cat-chip-ico">💑</span> Romantic</button>
+<button class="cat-chip" onclick="showCat('excursiones',this)"><span class="cat-chip-ico">🚗</span> Day trips</button>
+</div>
+
+<!-- ═══════ PLAYAS Y CALAS ═══════ -->
+<section class="cat-sec active" id="playas">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Beaches &amp; coves</div><h2 class="cat-sec-h">The best beaches <em>in the area</em></h2><p class="cat-sec-intro">From coves with crystal-clear waters to comfortable beaches with services — here is our selection so you can choose according to your plans.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.inmovillasjavea.com/wp-content/uploads/2024/08/CALA-DE-LA-GRANADELLA-JAVEA-1-scaled.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge fav">⭐ Must-see</span></div></div><div class="acard-body"><div class="acard-name">Cala Granadella</div><div class="acard-sub">Couples · snorkel · spectacular scenery</div><p class="acard-desc">One of the most beautiful coves on the coast. Crystal-clear waters between cliffs, spectacular seabed and a captivating atmosphere. Arrive early in summer.</p><div class="acard-pills"><span class="acard-pill h">🤿 Snorkel</span><span class="acard-pill">🏔️ Cliffs</span><span class="acard-pill">📸 Very photogenic</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1530/Cala-Granadella.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.xabia.org/ver/7375/INFORMACI%C3%93N-ACCESO-CALAS.html" class="btn-a secondary" target="_blank">🚗 Access</a><a href="https://www.google.com/maps/search/Cala+Granadella+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://cdn.prod.website-files.com/61c8843cc3e46b8cfdbee517/677918ed34188af862db52bf_63e8b43fc21faaa762c0fddb_Cala%2520Barraca.webp')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge fav">⭐ Must-see</span></div></div><div class="acard-body"><div class="acard-name">Cala Barraca / Portitxol</div><div class="acard-sub">Couples · snorkel · photos</div><p class="acard-desc">Very scenic cove with turquoise waters and views of Portitxol island. Perfect for snorkel and photos. Plan access ahead in high season.</p><div class="acard-pills"><span class="acard-pill h">🤿 Snorkel</span><span class="acard-pill">🏝️ Isla Portitxol</span><span class="acard-pill">📸 Photogenic</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1528/Cala-Barraca-o-Portitxol.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Cala+Barraca+Portitxol+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/08C01FC53F39443D81ED92C05CD0EB76/img/E02B870F6E9747D5A545203E6E13FDCF/PLAYA_DEL_ARENAL_-_JAVEA_1.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Playa del Arenal</div><div class="acard-sub">Families · children · convenience</div><p class="acard-desc">The most practical beach in Xàbia for an easy day. Sand, shallow waters, promenade and many services nearby. Ideal for families.</p><div class="acard-pills"><span class="acard-pill h">👨‍👩‍👧 Families</span><span class="acard-pill">🏖️ Sand</span><span class="acard-pill">🍽️ Services</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1437/El-Arenal.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Playa+Arenal+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://cdn.prod.website-files.com/61c8843cc3e46b8cfdbee517/67792789de9ca7ca6cc3f907_63add7c88ce5f01106acc3b9_IMG_0162.jpeg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Cala Blanca</div><div class="acard-sub">Quiet · couples · short visit</div><p class="acard-desc">Two small connected coves, quieter and more sheltered than the famous ones. Perfect for a few calm hours and completing with the nearby viewpoint.</p><div class="acard-pills"><span class="acard-pill h">🧘 Quiet</span><span class="acard-pill">🔭 Viewpoint nearby</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1475/Cala-Blanca.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Cala+Blanca+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.olea-home.com/objetos/temp/source/oleahome/olea-home-noticias_66bc89f56e190-source.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span></div></div><div class="acard-body"><div class="acard-name">Playa del Portet</div><div class="acard-sub">Families · couples · calm swim</div><p class="acard-desc">One of the best options in Moraira for a calm swim in a beautiful and comfortable setting. Perfect to combine with kayak or a hike to Cap d'Or.</p><div class="acard-pills"><span class="acard-pill h">👨‍👩‍👧 Families</span><span class="acard-pill">🚣 Kayak</span><span class="acard-pill">🏔️ Cap d'Or</span></div><div class="acard-acts"><a href="https://www.comunitatvalenciana.com/es/alacant-alicante/teulada-moraira/playas/playa-el-portet" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Playa+Portet+Moraira" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/A6F400F358ED41BEA060410710AB63E8/img/123D72B3F60C4D208B449C08457E1285/Benitatxell_calaMoraig_2.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benitatxell</span><span class="acard-badge fav">⭐ Must-see</span></div></div><div class="acard-body"><div class="acard-name">Cala del Moraig + Cova dels Arcs</div><div class="acard-sub">Spectacular scenery · snorkel · geology</div><p class="acard-desc">One of the most spectacular coves in the area for its cliffs, the colour of the water and its wild atmosphere. The Cova dels Arcs is a very photogenic natural formation. Visit only in calm seas.</p><div class="acard-pills"><span class="acard-pill h">🤿 Snorkel</span><span class="acard-pill">🏔️ Cliffs</span><span class="acard-pill">🪨 Cova dels Arcs</span></div><div class="acard-acts"><a href="https://www.comunitatvalenciana.com/es/alacant-alicante/poble-nou-de-benitatxell-el-benitachell/playas/cala-del-moraig" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Cala+Moraig+Benitatxell" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/0B03DFB96DF244C5A51D54A07AE50D1E/img/FA3A28E7FC334C25AB01502343CCBFB2/La_fustera_7H9A5207.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benissa</span></div></div><div class="acard-body"><div class="acard-name">Playa de la Fustera</div><div class="acard-sub">Families · snorkel · coastal walk</div><p class="acard-desc">Beautiful, comfortable and very complete beach. Ideal to combine swimming, snorkel and a walk by the sea — from here you can access the Benissa Ecological Path directly.</p><div class="acard-pills"><span class="acard-pill h">🚶 Ecological Path</span><span class="acard-pill">🤿 Snorkel</span><span class="acard-pill">👨‍👩‍👧 Families</span></div><div class="acard-acts"><a href="https://www.benissa.es/playas/playa-la-fustera/" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Playa+Fustera+Benissa" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<p class="cat-sec-note">For convenience: Arenal, Portet or Fustera. For spectacular scenery: Granadella, Portitxol or Moraig. For peace and quiet: Cala Blanca.</p>
+</section>
+
+<!-- ═══════ DEPORTES ACUÁTICOS ═══════ -->
+<section class="cat-sec" id="acuaticos">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Water sports</div><h2 class="cat-sec-h">Experiences <em>at sea</em></h2><p class="cat-sec-intro">From a kayak trip to a first dive — the coast of Xàbia and Moraira offers options for all levels.</p><p class="cat-sec-note">Approximate prices. Book ahead in summer. Confirm availability on the day.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://marinalia.es/4008-large_default/excursion-kayak-cala-granadella-y-cueva-del-llop-mari.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge diff">⭐ Top</span></div></div><div class="acard-body"><div class="acard-name">Kayak trip along Cala Granadella</div><div class="acard-sub">2h30 – 3h · Easy-moderate · Couples and groups</div><p class="acard-desc">One of the most complete experiences: paddling alongside cliffs, entering sea caves, snorkel stops and spots only visible from the water.</p><div class="acard-pills"><span class="acard-pill h">🚣 Kayak</span><span class="acard-pill">🤿 Snorkel</span><span class="acard-pill">🪨 Caves</span></div><div class="acard-acts"><a href="https://www.kayakjavea.com/Granadella" class="btn-a primary" target="_blank">🌐 Book</a><a href="https://marinalia.es/deporte-y-aventura/excursiones-maritimas/excursiones-en-kayak/1103-excursion-kayak-por-la-costa-de-javea.html" class="btn-a secondary" target="_blank">More options</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://openwater.es/wp-content/uploads/2019/06/snorkel-espa%C3%B1a-1200x800.png')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Guided snorkel</div><div class="acard-sub">2-3h · Easy · All levels</div><p class="acard-desc">Discover the seabed of Xàbia with a guide. Equipment included, various zones depending on the group level and sea conditions.</p><div class="acard-pills"><span class="acard-pill h">🤿 Snorkel</span><span class="acard-pill">👨‍👩‍👧 All levels</span></div><div class="acard-acts"><a href="https://marinalia.es/en/adventure-sports/water-sports/diving-and-snorkeling/1108-snorkeling-in-javea-tour-departing-from-arenal-beach.html" class="btn-a primary" target="_blank">🌐 Book</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.intex.es/blog/wp-content/uploads/2023/03/mejores-rutas-practicar-paddle-surf.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Paddle surf</div><div class="acard-sub">1-2h · Easy · Individual or group</div><p class="acard-desc">Free rental or guided excursion. The Arenal is perfect for beginners; the coves on the south coast offer more adventurous routes.</p><div class="acard-pills"><span class="acard-pill h">🏄 Paddle surf</span><span class="acard-pill">🌅 Sunset</span></div><div class="acard-acts"><a href="https://marinalia.es/en/adventure-sports/water-sports/kayak-and-paddle-surf-rental/1152-paddle-surf-rental-at-arenal-de-javea.html" class="btn-a primary" target="_blank">🌐 Book</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://nativediving.com/wp-content/uploads/2017/08/bautizo.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">First diving experience</div><div class="acard-sub">2-3h · For beginners · With instructor</div><p class="acard-desc">Breathing underwater for the first time is a unique sensation. Professional instructors and areas rich in marine life.</p><div class="acard-pills"><span class="acard-pill h">🤿 Diving</span><span class="acard-pill">📋 With instructor</span></div><div class="acard-acts"><a href="https://divingjavea.com/price-list/" class="btn-a primary" target="_blank">🌐 Info & prices</a><a href="https://www.mardays.es/en/activities/discover-scuba-diving/" class="btn-a secondary" target="_blank">Another option</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.turismomarinero.com/wp-content/uploads/2014/07/paseos-en-barco-estepona.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Boat trip or catamaran</div><div class="acard-sub">1h30 – 3h · Relaxed · Couples and families</div><p class="acard-desc">Seeing the coast from the sea is a different experience. There are daytime options with swimming stops, and sunset trips — which are spectacular.</p><div class="acard-pills"><span class="acard-pill h">⛵ Catamarán</span><span class="acard-pill">🌅 Sunset</span></div><div class="acard-acts"><a href="https://mundomarino.es/en/javea-port/" class="btn-a primary" target="_blank">🌐 Mundo Marino</a><a href="https://seanomads.es/es/" class="btn-a secondary" target="_blank">⛵ Sea Nomads</a><a href="https://areanautica.com/alquiler-de-barcos-javea/" class="btn-a secondary" target="_blank">Private boat</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://cdn.prod.website-files.com/61c8843cc3e46b8cfdbee517/677928db201503e26f08db73_639a3a4c156f5b73a19fafdb_Kayak.jpeg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span></div></div><div class="acard-body"><div class="acard-name">Kayak + snorkel in Moraira and Cap d'Or</div><div class="acard-sub">2-3h · Easy-moderate · Spectacular scenery</div><p class="acard-desc">Route along the coast of Moraira with stops in snorkel areas near Cap d'Or. A very complete combination of exercise and scenery.</p><div class="acard-pills"><span class="acard-pill h">🚣 Kayak</span><span class="acard-pill">🤿 Snorkel</span><span class="acard-pill">🏔️ Cap d'Or</span></div><div class="acard-acts"><a href="https://marinalia.es/en/adventure-sports/maritime-tours/tours-in-kayak/967-kayaking-trip-in-moraira-snorkeling-discover-the-magic-of-cap-d-or.html" class="btn-a primary" target="_blank">🌐 Book</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://martime.es/wp-content/uploads/2021/02/jet-ski-sea-doo-130_0jm1KTi.jpg.992x598_q85_box-046915596_crop_detail.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span><span class="acard-badge diff">Adrenalina</span></div></div><div class="acard-body"><div class="acard-name">Jet ski: Moraira – Cabo de la Nao</div><div class="acard-sub">1h · Intense · Over 18</div><p class="acard-desc">For those seeking adrenaline with scenery. Spectacular route along the coast between Moraira and Cabo de la Nao at full speed.</p><div class="acard-pills"><span class="acard-pill h">🏍️ Jet ski</span><span class="acard-pill">⚡ Adrenaline</span></div><div class="acard-acts"><a href="https://marinalia.es/en/adventure-sports/maritime-tours/jet-ski-tours/15-1h-jet-ski-tour-from-moraira-to-cabo-la-nao-for-2-people.html" class="btn-a primary" target="_blank">🌐 Book</a></div></div></div>
+</section>
+
+<!-- ═══════ SENDERISMO Y NATURALEZA ═══════ -->
+<section class="cat-sec" id="senderismo">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Hiking &amp; nature</div><h2 class="cat-sec-h">Trails with <em>views</em></h2><p class="cat-sec-intro">From easy coastal walks to mountain hikes — we have selected trails that are truly worth it for a holiday.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.camping-villasol.com/wp-content/uploads/2021/01/paseo-ecologico-ruta-benissa.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benissa</span><span class="acard-badge diff">Easy</span></div></div><div class="acard-body"><div class="acard-name">Benissa Ecological Path</div><div class="acard-sub">45 min – 1h · 3.5 km · Elevation +93m</div><p class="acard-desc">One of the most rewarding coastal walks in the area. It runs along the coastline between cliffs, coves and Mediterranean vegetation. Can be done in full or in sections.</p><div class="acard-pills"><span class="acard-pill h">🚶 Easy</span><span class="acard-pill">🏖️ Coves</span><span class="acard-pill">👨‍👩‍👧 Families</span></div><div class="acard-acts"><a href="https://www.benissa.es/benissanatursport/paseo-ecologico/" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Paseo+Ecologico+Benissa" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.turismobenitatxell.es/wp-content/uploads/2023/03/29-3-1024x576.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benitatxell</span><span class="acard-badge diff">Easy</span></div></div><div class="acard-body"><div class="acard-name">Moraig Fault Route</div><div class="acard-sub">30 min return · 275m · Very short</div><p class="acard-desc">High visual impact with very little effort. Viewpoint over Cala del Moraig and a spectacular geological area. Perfect to combine with the cove.</p><div class="acard-pills"><span class="acard-pill h">📸 Photogenic</span><span class="acard-pill">🪨 Geology</span><span class="acard-pill">⏱️ Very short</span></div><div class="acard-acts"><a href="https://www.turismobenitatxell.es/es/rutas/ruta-falla-del-moraig/" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Falla+Moraig+Benitatxell" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.apatita.com/rutas/Alicante/cap_dor/hero.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span><span class="acard-badge diff">Easy</span></div></div><div class="acard-body"><div class="acard-name">Cap d'Or and Watchtower Trail</div><div class="acard-sub">1h · 1.46 km · Elevation 138m</div><p class="acard-desc">Short trail from El Portet to the Watchtower with panoramic views over Moraira and the Mediterranean. Recommended at sunset.</p><div class="acard-pills"><span class="acard-pill h">🔭 Viewpoint</span><span class="acard-pill">🏰 Historic tower</span><span class="acard-pill">🌅 Sunset</span></div><div class="acard-acts"><a href="https://www.turismoteuladamoraira.com/ttm/web_php/index.php?contenido=showRuta&id=16&idNivel=657" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Cap+dOr+Torre+Vigia+Moraira" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://s0.wklcdn.com/image_63/1899069/11868303/7262808Master.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benitatxell</span><span class="acard-badge diff">Medium</span></div></div><div class="acard-body"><div class="acard-name">Penya-segats Route (Moraig-Llebeig)</div><div class="acard-sub">3h 50min · 1.9 km · Coastal cliffs</div><p class="acard-desc">Probably the most spectacular coastal route in the area. Cliffs, Mediterranean vegetation and ancient coastal caves. Only for those who really want to hike.</p><div class="acard-pills"><span class="acard-pill h">🏔️ Spectacular</span><span class="acard-pill">🥾 Hiking</span><span class="acard-pill">🪨 Caves</span></div><div class="acard-acts"><a href="https://www.turismobenitatxell.es/es/rutas/ruta-dels-penya-segats-moraig-llebeig/" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.descubriendoalicante.com/wp-content/uploads/2018/05/10-ruta-miradores-javea-cap-negre.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge diff">Flexible</span></div></div><div class="acard-body"><div class="acard-name">Xàbia Viewpoints Route</div><div class="acard-sub">Flexible · 15 viewpoints · Car + short walks</div><p class="acard-desc">15 viewpoints scattered along the coast. No need to see them all — pick 3 or 4 depending on the area and the time. Works great as a driving route with short stops.</p><div class="acard-pills"><span class="acard-pill h">🔭 15 viewpoints</span><span class="acard-pill">🚗 By car</span><span class="acard-pill">📸 Panoramic</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1516/Miradores.html" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.xabia.org/bd/imagenes/imagen3384h.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia · Montgó</span><span class="acard-badge diff">Medium</span></div></div><div class="acard-body"><div class="acard-name">Puerto de Xàbia to Cap de Sant Antoni</div><div class="acard-sub">30 min · 1.7 km · Montgó Natural Park</div><p class="acard-desc">Short but rewarding trail with views of the port, the bay and the natural setting of Montgó. A gentle entry to the park without a full mountain hike.</p><div class="acard-pills"><span class="acard-pill h">🏔️ Natural Park</span><span class="acard-pill">🌊 Sea views</span></div><div class="acard-acts"><a href="https://parquesnaturales.gva.es/es/web/pn-el-montgo/ruta-roja-cabo-de-san-antonio" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.javeaconnect.co.uk/wp-content/uploads/2019/09/cova6.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Montgó</span><span class="acard-badge diff">Medium</span></div></div><div class="acard-body"><div class="acard-name">Cova de l'Aigua y Racó del Bou</div><div class="acard-sub">3h 30min · 5.5 km · Circular · 364m altitude</div><p class="acard-desc">For those who want real hiking. Route through the Montgó massif with mountain landscape, wide views and the historic cave. Bring water and proper footwear.</p><div class="acard-pills"><span class="acard-pill h">🥾 Real hiking</span><span class="acard-pill">🏔️ Montgó</span><span class="acard-pill">🪨 Cave</span></div><div class="acard-acts"><a href="https://parquesnaturales.gva.es/es/web/pn-el-montgo/ruta-amarilla-la-cova-de-l-aigua-y-el-raco-del-bou" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+</section>
+
+<!-- ═══════ CULTURA E HISTORIA ═══════ -->
+<section class="cat-sec" id="cultura">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Culture &amp; history</div><h2 class="cat-sec-h">The most <em>authentic</em> side</h2><p class="cat-sec-intro">Charming old towns, small museums, buildings with history and unique elements like the riuraus — cultural plans that are truly appealing.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://d3fssj7n2ha5mv.cloudfront.net/listings/0sbq2/photos/xabia-historica-2-gl.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge fav">⭐ Must-see</span></div></div><div class="acard-body"><div class="acard-name">Walk through Historic Xàbia</div><div class="acard-sub">1 – 2h · Free · Audio guide available</div><p class="acard-desc">The best way to understand Xàbia beyond its beaches. Medieval centre with narrow streets, tosca stone, the church, the market, the museum and the riurau. If it falls on a Thursday, combine with the weekly market.</p><div class="acard-pills"><span class="acard-pill h">🏛️ Historic centre</span><span class="acard-pill">🎧 Audio guide</span><span class="acard-pill">🆓 Free</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1562/Paseo-por-X%C3%83bia-Hist%C3%83%C2%B3rica.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.xabia.org/ver/7337/Audiogu%C3%ADas.html" class="btn-a secondary" target="_blank">🎧 Audio guide</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://applications-media.feverup.com/image/upload/f_auto,w_800,h_450/fever2/plan/photo/353a2004-4c1f-11f0-8b3e-feb88291e92f.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Iglesia de San Bartolomé</div><div class="acard-sub">20 – 40 min · Brief stop</div><p class="acard-desc">14th-century fortress-church built in tosca stone. Declared a National Historic-Artistic Monument. The square around it is the heart of the town.</p><div class="acard-pills"><span class="acard-pill h">⛪ National Monument</span><span class="acard-pill">🪨 Tosca stone</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1551/Iglesia-de-San-Bartolom%C3%A9.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Iglesia+San+Bartolome+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/19AF57C964564D64A488A258196C8050/img/5CFE381C6157486C904A8128C32B0BA3/Museo_Arqueologico_y_etnologico_7H9A2692.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Museo Soler Blasco</div><div class="acard-sub">45 min – 1h · Free entry</div><p class="acard-desc">Archaeological and ethnographic museum in a 17th-century palace. Iberian and Roman remains and a fine painting collection. Perfect for a brief cultural morning.</p><div class="acard-pills"><span class="acard-pill h">🏛️ Museum</span><span class="acard-pill">🆓 Free entry</span></div><div class="acard-acts"><a href="https://www.ajxabia.com/ver/1213/museo-soler-blasco.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Museo+Soler+Blasco+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://xabiaaldia.com/upload/images/03_2023/163_xabia_riurauarnaudamarzo2023.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Riurau dels Català d'Arnauda</div><div class="acard-sub">15 – 30 min · Montaner Park</div><p class="acard-desc">One of the most emblematic buildings in the region — the riurau where grapes were dried to make raisins. It gives our company its name and is a symbol of local identity.</p><div class="acard-pills"><span class="acard-pill h">🏗️ Local heritage</span><span class="acard-pill">🍇 Grapes & raisins</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/3509/Riurau-dels-Catal%EF%BF%BD-d%EF%BF%BDArnauda.html" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Riurau+Catala+Arnauda+Javea" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0f/1a/40/40/photo2jpg.jpg?w=900&h=500&s=1')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benissa</span></div></div><div class="acard-body"><div class="acard-name">Benissa historic centre</div><div class="acard-sub">1h 30 – 2h 30 · Walk + Sala del Consell</div><p class="acard-desc">Old town with medieval layout, palaces, churches and the 15th-century Sala del Consell. The route can be combined with the Basilica and a gastronomic stop.</p><div class="acard-pills"><span class="acard-pill h">🏛️ Medieval</span><span class="acard-pill">⛪ Basilica</span></div><div class="acard-acts"><a href="https://www.benissa.es/que-hacer-en-el-centro-historico-de-benissa/" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Centro+historico+Benissa" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/A930AABAF42D4FBFA7A864C47CD4DF49/img/D14AEA8F76FA47E4818BBDB1F8E7F4E0/16032840105182017-Moraira-Castillo-02545907079311058368829.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span></div></div><div class="acard-body"><div class="acard-name">Castillo de Moraira</div><div class="acard-sub">Brief stop · Next to l'Ampolla beach</div><p class="acard-desc">18th-century watchtower by the sea. Quick visit, very scenic and perfect to combine with a stroll through Moraira.</p><div class="acard-pills"><span class="acard-pill">🏰 Watchtower</span><span class="acard-pill h">📸 Photogenic</span></div><div class="acard-acts"><a href="https://turismoteuladamoraira.com/ttm/web_php/index.php?contenido=fichaPoi_coconut&id=3&idNivel=559&idPoi=8&lang=4" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Castillo+Moraira" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.turismobenitatxell.es/wp-content/uploads/2023/03/7-2.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benitatxell</span></div></div><div class="acard-body"><div class="acard-name">Museu al Vent and old town</div><div class="acard-sub">45 min – 1h · Authentic village</div><p class="acard-desc">Local museum with its own identity and a quiet, genuine old town. Good option for a cultural plan off the beaten track.</p><div class="acard-pills"><span class="acard-pill">🏛️ Museum</span><span class="acard-pill h">🏘️ Authentic village</span></div><div class="acard-acts"><a href="https://www.turismobenitatxell.es/es/que-hacer/museu-al-vent/" class="btn-a primary" target="_blank">🌐 Official info</a><a href="https://www.google.com/maps/search/Museu+al+Vent+Benitatxell" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+</section>
+
+<!-- ═══════ GASTRONOMÍA ═══════ -->
+<section class="cat-sec" id="gastronomia">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Gastronomy &amp; local produce</div><h2 class="cat-sec-h">Flavours of <em>the Marina Alta</em></h2><p class="cat-sec-intro">A traveller doesn't live by restaurants alone — here we tell you what to try, where to buy local produce and which food experiences are worth having.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://images.unsplash.com/photo-1515443961218-a51367888e4b?w=600&q=80')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge diff">📖 Guide</span></div></div><div class="acard-body"><div class="acard-name">What to try in the Marina Alta</div><div class="acard-sub">Must-try dishes and products</div><p class="acard-desc">Esgarrat, cocas, snails, els capellans, putxero, polp amb penca, arroz a banda, arroz al horno, arroz negro... and in Benissa the suquet de peix, in Teulada the mistela, in Benitatxell the cruet and Moraig wine.</p><div class="acard-pills"><span class="acard-pill h">🥘 Rice dishes</span><span class="acard-pill">🐙 Tapas</span><span class="acard-pill">🍷 Mistela</span><span class="acard-pill">🧀 Local produce</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1796/Productos-y-platos-locales.html" class="btn-a primary" target="_blank">🌐 Info Xàbia</a><a href="https://riuraurentals.com/gastronomia-tipica-marina-alta/" class="btn-a secondary" target="_blank">Our blog</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600&q=80')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Markets and local shopping</div><div class="acard-sub">Municipal Market · Weekly market · Mercatap</div><p class="acard-desc">The Xàbia Municipal Market opens every morning with fresh produce. On Thursdays the weekly market fills the Plaza de la Constitución. And in season, Mercatap brings together tapas and local produce.</p><div class="acard-pills"><span class="acard-pill h">🛒 Daily market</span><span class="acard-pill">📅 Thursdays: street market</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/7272/Mercadillo-Semanal-.html" class="btn-a primary" target="_blank">🌐 Street market</a><a href="https://www.xabia.org/ver/7051/Donde-encontrar-nuestros-productos.html" class="btn-a secondary" target="_blank">Local produce</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600&q=80')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Region</span></div></div><div class="acard-body"><div class="acard-name">Moscatel, wine and local identity</div><div class="acard-sub">Moscatel grapes · Wines · Broad beans · Salt fish</div><p class="acard-desc">The Moscatel grape is the star product of the territory. In Teulada you can visit wineries and try mistela. Broad beans, salt fish and rice dishes complete the gastronomic identity of the area.</p><div class="acard-pills"><span class="acard-pill h">🍇 Moscatel</span><span class="acard-pill">🍷 Wineries</span></div><div class="acard-acts"><a href="https://www.turismoteuladamoraira.com/ttm/web_php/index.php?contenido=subapartados_coconut&id_boto=570" class="btn-a primary" target="_blank">🌐 Teulada wine tourism</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge diff">🏠 At home</span></div></div><div class="acard-body"><div class="acard-name">Private food experiences</div><div class="acard-sub">Private chef · Themed dinners · Tastings</div><p class="acard-desc">If you want something special without leaving the accommodation — private chef, themed dinners, wine or cocktail tastings. Ask us and we'll organise something bespoke.</p><div class="acard-pills"><span class="acard-pill h">👨‍🍳 Private chef</span><span class="acard-pill">🍷 Tasting</span><span class="acard-pill">🍸 Cocktails</span></div><div class="acard-acts"><a href="https://wa.me/34633247940?text=Hola%20Fran%2C%20me%20interesa%20una%20experiencia%20gastronómica%20privada" class="btn-a primary" target="_blank">💬 Ask us</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Varios</span></div></div><div class="acard-body"><div class="acard-name">Food events</div><div class="acard-sub">Showcookings · Tastings · Special markets</div><p class="acard-desc">Throughout the year there are showcookings, local produce tastings and themed food markets. Check the events calendar during your stay so you don't miss them.</p><div class="acard-pills"><span class="acard-pill h">📅 Check calendar</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1075/Eventos-en-Xabia.html" class="btn-a primary" target="_blank">🌐 Xàbia events</a><a href="https://www.benissa.es/agenda/" class="btn-a secondary" target="_blank">Benissa events</a></div></div></div>
+</section>
+
+<!-- ═══════ FAMILIA ═══════ -->
+<section class="cat-sec" id="familia">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Family activities</div><h2 class="cat-sec-h">Plans for <em>the whole family</em></h2><p class="cat-sec-intro">Easy, enjoyable and practical activities with special attention to safety, simple logistics and real value for holidays with children.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.eysmunicipales.es/static/media/images/actualidad/la-playa-del-arenal-de-javea-incorpora-un-nuevo-espacio-de-juego-infantil-adaptado-a-entornos-costeros.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge fav">👨‍👩‍👧 Top for families</span></div></div><div class="acard-body"><div class="acard-name">Playa del Arenal with kids</div><div class="acard-sub">Half day or full day · Easy</div><p class="acard-desc">The go-to option for families: sand, shallow waters, promenade, parks, skates and a safe environment. Minimal hassle — everything is at hand.</p><div class="acard-pills"><span class="acard-pill h">👶 Small children</span><span class="acard-pill">🏖️ Sand</span><span class="acard-pill">🍽️ Services</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1437/LArenal.html" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.xabia.org/bd/imagenes/imagen724h.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Pinosol Recreation Area</div><div class="acard-sub">Short plan · Shade and picnic</div><p class="acard-desc">Shade, picnic tables and play areas without relying on the beach. Very good alternative for very hot days or when the kids need a change.</p><div class="acard-pills"><span class="acard-pill h">🌲 Shade</span><span class="acard-pill">🧺 Picnic</span></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://marcotopo.com/wp-content/uploads/2022/11/portada-teulada-definitiva.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Teulada</span></div></div><div class="acard-body"><div class="acard-name">Marco Topo</div><div class="acard-sub">Free game · Historic centre</div><p class="acard-desc">Interactive game to discover the historic centre of Teulada as a family. Free, self-guided and perfect for kids to have fun while learning.</p><div class="acard-pills"><span class="acard-pill h">🎮 Game</span><span class="acard-pill">🆓 Free</span><span class="acard-pill">🏛️ Cultural</span></div><div class="acard-acts"><a href="https://marcotopo.com/aventura/teulada-moraira-turismo-familiar/" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.camping-villasol.com/wp-content/uploads/2021/01/paseo-ecologico-ruta-benissa.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benissa</span></div></div><div class="acard-body"><div class="acard-name">Ecological Path in sections</div><div class="acard-sub">Short adaptable sections · Coves</div><p class="acard-desc">The Ecological Path works very well in short sections with children. You can stop at coves and turn back when needed. Bring water shoes if they go on the rocks.</p><div class="acard-pills"><span class="acard-pill h">🚶 Easy walk</span><span class="acard-pill">🏖️ Coves</span></div><div class="acard-acts"><a href="https://www.benissa.es/benissanatursport/paseo-ecologico/" class="btn-a primary" target="_blank">🌐 Official info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/19AF57C964564D64A488A258196C8050/img/5CFE381C6157486C904A8128C32B0BA3/Museo_Arqueologico_y_etnologico_7H9A2692.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span></div></div><div class="acard-body"><div class="acard-name">Museo Soler Blasco + historic centre</div><div class="acard-sub">Brief cultural morning</div><p class="acard-desc">A brief and friendly museum visit with the kids, followed by a stroll through the old town streets. Works well combined with an ice cream or lunch.</p><div class="acard-pills"><span class="acard-pill">🏛️ Cultural</span><span class="acard-pill h">⏱️ Brief</span></div><div class="acard-acts"><a href="https://www.ajxabia.com/ver/1213/museo-soler-blasco.html" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://grupo-garcia.es/wp-content/uploads/2021/11/javea-noche.jpg.webp')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge diff">Summer</span></div></div><div class="acard-body"><div class="acard-name">Summer evenings at the Arenal</div><div class="acard-sub">Seasonal · Family atmosphere</div><p class="acard-desc">In summer the Arenal promenade comes alive in the evening: ice cream shops, roller skates, strolling atmosphere and sometimes open-air cinema. Very enjoyable with kids.</p><div class="acard-pills"><span class="acard-pill h">☀️ Summer only</span><span class="acard-pill">🍦 Ice cream</span><span class="acard-pill">🎬 Cinema</span></div><div class="acard-acts"><a href="https://riuraurentals.com/cine-de-verano-javea-2025-noches-de-pelicula-en-la-playa-del-arenal/" class="btn-a primary" target="_blank">🌐 Summer cinema</a></div></div></div>
+</section>
+
+<!-- ═══════ PLANES ROMÁNTICOS ═══════ -->
+<section class="cat-sec" id="romantico">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Romantic plans</div><h2 class="cat-sec-h">For <em>two</em></h2><p class="cat-sec-intro">Viewpoints, sunset walks, sea spots and some special cultural plans — not cheesy, just places that truly captivate.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.descubriendoalicante.com/wp-content/uploads/2018/05/10-ruta-miradores-javea-cap-negre.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge fav">💑 Top</span></div></div><div class="acard-body"><div class="acard-name">Viewpoints Route (couples version)</div><div class="acard-sub">Afternoon/sunset · Very low effort · By car</div><p class="acard-desc">More than a hike, it's a panoramic route to stop at whichever viewpoints appeal most. Combines sea, cliffs, beautiful light and a sense of discovery.</p><div class="acard-pills"><span class="acard-pill h">🌅 Sunset</span><span class="acard-pill">🔭 Viewpoints</span><span class="acard-pill">🚗 By car</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/1516/Miradores.html" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.olea-home.com/objetos/temp/source/oleahome/olea-home-noticias_68ac26522c5ad-source.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benissa</span></div></div><div class="acard-body"><div class="acard-name">Sunset at Cala Fustera + Ecological Path</div><div class="acard-sub">Sunset · Low effort</div><p class="acard-desc">La Fustera at sunset has beautiful light. Combine it with a section of the Ecological Path for a simple but very lovely plan.</p><div class="acard-pills"><span class="acard-pill h">🌅 Sunset</span><span class="acard-pill">🚶 Coastal walk</span></div><div class="acard-acts"><a href="https://www.benissa.es/benissanatursport/paseo-ecologico/" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/2B40E7B03317435BAECA7D1C01C7B85F/img/EDB2176F3BF5412386C54F92DE7A9D47/TEULADA_MORAIRA_TORRE_VIGIA_CAP_DOR.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Moraira</span></div></div><div class="acard-body"><div class="acard-name">El Portet + Cap d'Or Watchtower</div><div class="acard-sub">Late afternoon · Low effort</div><p class="acard-desc">Walk up to the watchtower with spectacular views over Moraira. The visual reward at the end of the climb is well worth it, especially in soft light.</p><div class="acard-pills"><span class="acard-pill h">🏰 Watchtower</span><span class="acard-pill">🌊 Views</span></div><div class="acard-acts"><a href="https://www.turismoteuladamoraira.com/ttm/web_php/index.php?contenido=showRuta&id=16&idNivel=657" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://calamoraig.com/wp-content/uploads/2024/10/2023-03-29-1.webp')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Benitatxell</span></div></div><div class="acard-body"><div class="acard-name">Moraig Viewpoint</div><div class="acard-sub">Sunset or soft light · Very low effort</div><p class="acard-desc">One of the most beautiful natural balconies in the area. Views of the open Mediterranean with a unique perspective of the cliffs. A must with good light.</p><div class="acard-pills"><span class="acard-pill h">🔭 Viewpoint</span><span class="acard-pill">📸 Photogenic</span></div><div class="acard-acts"><a href="https://www.turismobenitatxell.es/es/miradores/7-mirador-del-moraig/" class="btn-a primary" target="_blank">🌐 Info</a><a href="https://www.google.com/maps/search/Mirador+Moraig+Benitatxell" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://estaticos-cdn.prensaiberica.es/clip/6fdca3b2-05f3-48db-9a18-6ff57668877d_alta-libre-aspect-ratio_default_0.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">Xàbia</span><span class="acard-badge diff">Cultural</span></div></div><div class="acard-body"><div class="acard-name">Sunset with Sorolla in Xàbia</div><div class="acard-sub">Special cultural plan · Check calendar</div><p class="acard-desc">Experience that combines culture, landscape and sunset following Sorolla's footsteps in Xàbia. Check calendar as it depends on specific programming.</p><div class="acard-pills"><span class="acard-pill h">🎨 Sorolla</span><span class="acard-pill">🌅 Sunset</span><span class="acard-pill">📅 Check calendar</span></div><div class="acard-acts"><a href="https://www.xabia.org/ver/8771/Atardecer-con-Sorolla-en-X%C3%A0bia-.html" class="btn-a primary" target="_blank">🌐 Info</a></div></div></div>
+</section>
+
+<!-- ═══════ EXCURSIONES DE UN DÍA ═══════ -->
+<section class="cat-sec" id="excursiones">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Day trips</div><h2 class="cat-sec-h">Getaways that are <em>worth it</em></h2><p class="cat-sec-intro">Beautiful villages, charming inland areas and cities with character — all less than an hour and a half by car.</p></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://app-api.paagees.com/uploads/019cbdbc-aee2-70fb-8f3a-16c07ea752b2/general/2026/03/05/ce/019cbdbf-b2d2-765f-86fc-ca85632af7ce.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">25-35 min</span><span class="acard-badge fav">⭐ Top</span></div></div><div class="acard-body"><div class="acard-name">Dénia</div><div class="acard-sub">Castle + old town + fishing quarter</div><p class="acard-desc">The easiest and most rewarding trip. Climb to the castle, walk through the historic centre, visit the port and end at Baix la Mar or Marqués de Campo.</p><div class="acard-pills"><span class="acard-pill h">🏰 Castle</span><span class="acard-pill">🐟 Port</span><span class="acard-pill">🍽️ Gastronomy</span></div><div class="acard-acts"><a href="https://denia.net/en/discover/heritage-and-culture/" class="btn-a primary" target="_blank">🌐 Dénia Tourism</a><a href="https://www.google.com/maps/search/Denia+Alicante" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/25E006AC2CB14651AED137D3A98E44E8/img/F6947F36CDED40B981D735E6381F7D86/2.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">25-40 min</span></div></div><div class="acard-body"><div class="acard-name">Xaló / Vall de Pop</div><div class="acard-sub">Inland + market + winery</div><p class="acard-desc">Beautiful valley with a very popular Sunday market, Moscatel wineries and authentic inland atmosphere. Perfect for a quiet morning plan.</p><div class="acard-pills"><span class="acard-pill h">🍇 Wineries</span><span class="acard-pill">🛒 Market</span><span class="acard-pill">🏔️ Valley</span></div><div class="acard-acts"><a href="https://bodegasxalo.com/en/visits-to-the-winery/" class="btn-a primary" target="_blank">🌐 Xaló Wineries</a><a href="https://www.google.com/maps/search/Xalo+Vall+de+Pop" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://multimedia.comunitatvalenciana.com/EEF8FB3D5CDF440ABA2EB161809F73FB/img/F9CA74C13CAC4F699F797E29A62FA75D/CV-Altea-_1920x1080_1.jpg?responsive')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">45-60 min</span><span class="acard-badge fav">⭐ Top</span></div></div><div class="acard-body"><div class="acard-name">Altea</div><div class="acard-sub">Beautiful village + walk + viewpoints</div><p class="acard-desc">White old town with cobblestone streets, art galleries and sea viewpoints. One of the most beautiful villages on the Costa Blanca.</p><div class="acard-pills"><span class="acard-pill h">🏘️ White village</span><span class="acard-pill">🎨 Art</span><span class="acard-pill">🔭 Viewpoints</span></div><div class="acard-acts"><a href="https://www.visitaltea.es/" class="btn-a primary" target="_blank">🌐 Altea Tourism</a><a href="https://www.google.com/maps/search/Altea+casco+antiguo" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://guadalest.es/wp-content/uploads/guadalest-vistas-pantano.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">60-80 min</span></div></div><div class="acard-body"><div class="acard-name">Guadalest</div><div class="acard-sub">Historic village + reservoir + mountain</div><p class="acard-desc">Village perched on a rock with views of the turquoise reservoir and the mountain. One of the most visited villages in Spain for good reason.</p><div class="acard-pills"><span class="acard-pill h">🏔️ Mountain</span><span class="acard-pill">🌊 Reservoir</span><span class="acard-pill">🏰 Heritage</span></div><div class="acard-acts"><a href="https://www.destinoguadalest.com/en/" class="btn-a primary" target="_blank">🌐 Guadalest Tourism</a><a href="https://www.google.com/maps/search/Guadalest+Alicante" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRePO-HRtXvkPV9eTS-3ED7Y-tXlyWckrVpg&s')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">60-75 min</span></div></div><div class="acard-body"><div class="acard-name">Villajoyosa</div><div class="acard-sub">Colourful houses + sea + chocolate</div><p class="acard-desc">Fishing village with colourful façades that look like a painting. Don't miss the Valor chocolate museum and the beach walk.</p><div class="acard-pills"><span class="acard-pill h">🎨 Colourful houses</span><span class="acard-pill">🍫 Chocolate</span></div><div class="acard-acts"><a href="https://www.turismolavilajoiosa.com/en/" class="btn-a primary" target="_blank">🌐 Tourism</a><a href="https://www.turismolavilajoiosa.com/en/disfruta/GastronomiaChocolate" class="btn-a secondary" target="_blank">🍫 Chocolate</a><a href="https://www.google.com/maps/search/Villajoyosa+Alicante" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+
+<div class="acard rv"><div class="acard-img" style="background-image:url('https://www.barcelo.com/guia-turismo/wp-content/uploads/que-visitar-en-alicante-ciudad.jpg')"><div class="acard-img-overlay"></div><div class="acard-badges"><span class="acard-badge zone">70-90 min</span></div></div><div class="acard-body"><div class="acard-name">Alicante ciudad</div><div class="acard-sub">Santa Bárbara Castle + old town + Explanada</div><p class="acard-desc">Castle with spectacular views, Santa Cruz quarter with colourful houses, the palm-lined Explanada and great food. Worth a full day.</p><div class="acard-pills"><span class="acard-pill h">🏰 Santa Bárbara</span><span class="acard-pill">🌴 Explanada</span><span class="acard-pill">🍽️ Gastronomy</span></div><div class="acard-acts"><a href="https://alicanteturismo.com/en/" class="btn-a primary" target="_blank">🌐 Alicante Tourism</a><a href="https://www.google.com/maps/search/Alicante+centro" class="btn-a secondary" target="_blank">📍 Maps</a></div></div></div>
+</section>
+
+<!-- ═══════ FIESTAS Y EVENTOS ═══════ -->
+<section class="cat-sec" id="fiestas">
+<div class="cat-sec-hdr rv"><div class="cat-sec-ey">Festivals &amp; events</div><h2 class="cat-sec-h">Festival <em>calendar</em></h2><p class="cat-sec-intro">Xàbia, Moraira, Teulada, Benissa and Benitatxell have a very rich festival calendar. Select the month of your stay to see what events are on.</p><p class="cat-sec-note">Dates are approximate and may change. Always check the official municipal calendar before going.</p></div>
+
+<div class="month-tabs rv">
+<button class="month-chip on" onclick="showMonth('ene',this)">Jan</button>
+<button class="month-chip" onclick="showMonth('feb',this)">Feb</button>
+<button class="month-chip" onclick="showMonth('mar',this)">Mar</button>
+<button class="month-chip" onclick="showMonth('abr',this)">Apr</button>
+<button class="month-chip" onclick="showMonth('may',this)">May</button>
+<button class="month-chip" onclick="showMonth('jun',this)">Jun</button>
+<button class="month-chip" onclick="showMonth('jul',this)">Jul</button>
+<button class="month-chip" onclick="showMonth('ago',this)">Aug</button>
+<button class="month-chip" onclick="showMonth('sep',this)">Sep</button>
+<button class="month-chip" onclick="showMonth('oct',this)">Oct</button>
+<button class="month-chip" onclick="showMonth('nov',this)">Nov</button>
+<button class="month-chip" onclick="showMonth('dic',this)">Dec</button>
+</div>
+
+<div class="month-content active" id="m-ene">
+<div class="fiesta-card"><div class="fiesta-name">Three Kings Parade</div><div class="fiesta-where">Xàbia · Moraira · Benissa · Benitatxell</div><div class="fiesta-desc">Very family-friendly plan for Christmas stays. All four towns organise a parade.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Fira i Porrat de Sant Antoni</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Popular fair with rides and Valencian tradition. Good for families.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Sant Antoni</div><div class="fiesta-where">Moraira · Teulada · Benissa · Benitatxell</div><div class="fiesta-desc">Bonfires, traditional dances and blessing of animals. Authentic village atmosphere.</div></div>
+</div>
+
+<div class="month-content" id="m-feb">
+<div class="fiesta-card"><div class="fiesta-name">Sant Blai</div><div class="fiesta-where">Teulada</div><div class="fiesta-desc">Traditional festival with blessing, workshops, dances and gastronomy like putxero de polp.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Regional Carnival</div><div class="fiesta-where">Xàbia · Moraira · Benissa</div><div class="fiesta-desc">Parades, costumes and festive atmosphere. Variable date between February and March.</div></div>
+</div>
+
+<div class="month-content" id="m-mar">
+<div class="fiesta-card"><div class="fiesta-name">Carnival (if it falls in March)</div><div class="fiesta-where">Xàbia · Moraira</div><div class="fiesta-desc">Some years carnival falls in March. Check calendar.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Transition month</div><div class="fiesta-where">Region</div><div class="fiesta-desc">Fewer major festivals, but municipal calendars include theatre, music and exhibitions.</div></div>
+</div>
+
+<div class="month-content" id="m-abr">
+<div class="fiesta-card"><div class="fiesta-name">Easter Crafts Fair</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Stroll through the historic centre with street atmosphere and artisan shopping.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Mitjafava Fest</div><div class="fiesta-where">Benitatxell</div><div class="fiesta-desc">Food event centred on the fava bean and traditional local produce.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Fiestas de Jesús Nazareno</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Great spring festival with flower crosses, bulls, fireworks and mascletà. Continues in May.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Patron Saint Festivals</div><div class="fiesta-where">Teulada · Benissa</div><div class="fiesta-desc">Teulada celebrates Sant Vicent Ferrer and Benissa the Puríssima Xiqueta — offerings, procession, fireworks and concerts.</div></div>
+</div>
+
+<div class="month-content" id="m-may">
+<div class="fiesta-card"><div class="fiesta-name">Fiestas de la Rosa</div><div class="fiesta-where">Benitatxell</div><div class="fiesta-desc">Spring festival with blessed bread, offerings, costumes and dances.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Vive Teulada Moraira</div><div class="fiesta-where">Moraira</div><div class="fiesta-desc">Commercial and food fair, very easy to enjoy as a visitor.</div></div>
+</div>
+
+<div class="month-content" id="m-jun">
+<div class="fiesta-card"><div class="fiesta-name">Hogueras de Sant Joan</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">One of the biggest festivals of the year. Plantà, offerings, Nit dels Focs, dances and final bonfire. Approx. 7 to 24 June.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Moros y Cristianos</div><div class="fiesta-where">Moraira · Benissa</div><div class="fiesta-desc">Gala parades, conquest and reconquest. Very visual and easy to enjoy.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Mercado Andalusí</div><div class="fiesta-where">Moraira</div><div class="fiesta-desc">Colourful and very visual street event for strolling and dining in the area.</div></div>
+</div>
+
+<div class="month-content" id="m-jul">
+<div class="fiesta-card"><div class="fiesta-name">Festival Internacional</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Multicultural event with tourist atmosphere. First weekend of July.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Moraira Patron Saint Festivals</div><div class="fiesta-where">Moraira</div><div class="fiesta-desc">Great coastal festival with offerings, fireworks, bulls in the sea, clubs and lots of atmosphere.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Virgen del Carmen</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Maritime celebration with procession and floral offering at the port. 16 July.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Moros y Cristianos</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Landing, parades and historical re-enactments in Duanes de la Mar. Third week of July.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Main Festivals</div><div class="fiesta-where">Benitatxell</div><div class="fiesta-desc">The big festival of the municipality with popular programme, music and quintades. Last weeks of July.</div></div>
+</div>
+
+<div class="month-content" id="m-ago">
+<div class="fiesta-card"><div class="fiesta-name">Festival and Medieval Market</div><div class="fiesta-where">Teulada</div><div class="fiesta-desc">Crafts and medieval atmosphere in the historic centre.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Voramar Street Music Festival</div><div class="fiesta-where">Moraira</div><div class="fiesta-desc">Open-air music in a very pleasant format. August and September.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Festa del Moscatell</div><div class="fiesta-where">Teulada</div><div class="fiesta-desc">Culture and gastronomy linked to the Moscatel grape. Late August.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Virgen de Loreto Festivals (start)</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Century-old festivals of the port quarter marking the end of summer. Continues in September.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Summer in Benissa</div><div class="fiesta-where">Benissa</div><div class="fiesta-desc">Open-air cinema, coastal festivals and summer programme in the rural areas.</div></div>
+</div>
+
+<div class="month-content" id="m-sep">
+<div class="fiesta-card"><div class="fiesta-name">Virgen de Loreto Festivals</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Great maritime atmosphere in Duanes de la Mar, bulls in the sea, processions, dances and fireworks. Until 8 September.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Alere/Dolia</div><div class="fiesta-where">Teulada</div><div class="fiesta-desc">Wine tourism and gastronomy showcase. Very suitable for couples and foodies.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Jazz als Porxes</div><div class="fiesta-where">Teulada</div><div class="fiesta-desc">Open-air jazz concerts. Pleasant format for the end of summer.</div></div>
+</div>
+
+<div class="month-content" id="m-oct">
+<div class="fiesta-card"><div class="fiesta-name">9 d'Octubre</div><div class="fiesta-where">Benitatxell · Benissa</div><div class="fiesta-desc">Regional celebration with workshops, children's games, craft demonstrations and traditional dance.</div></div>
+</div>
+
+<div class="month-content" id="m-nov">
+<div class="fiesta-card"><div class="fiesta-name">Cultural month</div><div class="fiesta-where">Region</div><div class="fiesta-desc">More cultural than festive. Theatre, music, exhibitions and weekend programme. Check municipal calendars.</div></div>
+</div>
+
+<div class="month-content" id="m-dic">
+<div class="fiesta-card"><div class="fiesta-name">Christmas and Three Kings</div><div class="fiesta-where">Xàbia · Benitatxell</div><div class="fiesta-desc">Craft markets, concerts, Santa Claus, letter collection and children's activities. From 6 Dec to 6 Jan.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Christmas Market</div><div class="fiesta-where">Benissa</div><div class="fiesta-desc">Market with workshops, rides, performances and family atmosphere. First fortnight.</div></div>
+<div class="fiesta-card"><div class="fiesta-name">Santa Llúcia</div><div class="fiesta-where">Xàbia</div><div class="fiesta-desc">Pilgrimage to the hermitage, mass and chocolate distribution. 13 December.</div></div>
+</div>
+
+<div class="rv" style="margin-top:20px">
+<p class="cat-sec-note">Agendas oficiales: <a href="https://www.xabia.org/ver/3667/Calendario-anual-de-fiestas.html" style="color:var(--am);font-weight:500" target="_blank">Xàbia</a> · <a href="https://www.turismoteuladamoraira.com/ttm/web_php/index.php?contenido=subapartados_coconut&id_boto=593&title=agenda" style="color:var(--am);font-weight:500" target="_blank">Teulada-Moraira</a> · <a href="https://www.benissa.es/agenda/" style="color:var(--am);font-weight:500" target="_blank">Benissa</a> · <a href="https://www.turismobenitatxell.es/es/fiestas-y-eventos/" style="color:var(--am);font-weight:500" target="_blank">Benitatxell</a></p>
+</div>
+</section>
+
+<!-- Footer -->
+<div class="act-footer rv">
+<div class="act-footer-firma">Alex &amp; Fran</div>
+<div class="act-footer-brand">Riu Rau Rentals · riuraurentals.com</div>
+</div>
+
+<script>
+function showCat(id, btn) {
+  document.querySelectorAll('.cat-sec').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.cat-chip').forEach(function(c) { c.classList.remove('on'); });
+  btn.classList.add('on');
+  window.scrollTo({ top: document.getElementById(id).offsetTop - 110, behavior: 'smooth' });
+  // Re-observe reveals in new section
+  document.querySelectorAll('#' + id + ' .rv:not(.in)').forEach(function(el) { obs.observe(el); });
+}
+
+function showMonth(id, btn) {
+  document.querySelectorAll('.month-content').forEach(function(m) { m.classList.remove('active'); });
+  document.getElementById('m-' + id).classList.add('active');
+  document.querySelectorAll('.month-chip').forEach(function(c) { c.classList.remove('on'); });
+  btn.classList.add('on');
+}
+
+// Handle hash navigation
+function checkHash() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash) {
+    var sec = document.getElementById(hash);
+    var chip = document.querySelector('.cat-chip[onclick*="' + hash + '"]');
+    if (sec && chip) {
+      showCat(hash, chip);
+    }
+  }
+}
+
+// Scroll reveal
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+document.querySelectorAll('.rv').forEach(function(el) { obs.observe(el); });
+
+// Auto-select current month in fiestas
+var months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+var currentMonth = months[new Date().getMonth()];
+
+// Check hash on load
+window.addEventListener('load', checkHash);
+window.addEventListener('hashchange', checkHash);
+</script>
+
+<script>
+(function(){var p=new URLSearchParams(window.location.search);if(p.get('lang')==='es'){window.location.href='index.html?lang=es';return}})();
+</script>
+</body>
+</html>
