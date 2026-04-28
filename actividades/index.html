@@ -85,33 +85,6 @@ img{display:block;max-width:100%}a{text-decoration:none;color:inherit}button{cur
 .act-footer{text-align:center;padding:32px 24px;border-top:1px solid var(--cr)}
 .act-footer-firma{font-family:var(--script);font-size:1.5rem;color:var(--am);margin-bottom:4px}
 .act-footer-brand{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--li)}
-/* ═══ DESKTOP ═══ */
-@media(min-width:768px){
-body{max-width:960px;box-shadow:0 0 40px rgba(44,40,37,.08);border-left:1px solid var(--cr);border-right:1px solid var(--cr)}
-html{background:#F0EBE3}
-.act-hero{height:350px}
-.act-hero-c{padding:0 60px 32px}
-.act-hero-h{font-size:2.8rem}
-.cat-nav{padding:16px 60px}
-.cat-sec{padding:40px 60px}
-.cat-sec-hdr{margin-bottom:32px}
-.cat-sec-h{font-size:2rem}
-.acard{display:flex;flex-direction:row}
-.acard-img{width:280px;min-width:280px;height:auto;min-height:200px}
-.acard-body{padding:20px 24px;flex:1}
-.acard-name{font-size:1.3rem}
-.month-tabs{padding:0 0 16px}
-.fiesta-card{display:inline-block;width:calc(50% - 4px);vertical-align:top;margin-right:4px}
-.act-footer{padding:40px 60px}
-}
-@media(min-width:1024px){
-body{max-width:1080px}
-.cat-sec{padding:40px 80px}
-.act-hero-c{padding:0 80px 36px}
-.cat-nav{padding:16px 80px}
-.acard-img{width:340px;min-width:340px}
-.fiesta-card{width:calc(33.33% - 6px);margin-right:6px}
-}
 </style>
 </head>
 <body>
@@ -433,6 +406,10 @@ var currentMonth = months[new Date().getMonth()];
 // Check hash on load
 window.addEventListener('load', checkHash);
 window.addEventListener('hashchange', checkHash);
+</script>
+
+<script>
+(function(){var p=new URLSearchParams(window.location.search);if(p.get('lang')==='en'){window.location.href='en.html?lang=en';return}if(!p.get('lang')){var bl=navigator.language||navigator.userLanguage||'es';if(bl.startsWith('en'))window.location.href='en.html?lang=en'}})();
 </script>
 </body>
 </html>
