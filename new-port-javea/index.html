@@ -313,9 +313,18 @@ hr.dv{margin:0 80px}
 <nav class="nav"><a href="#inicio" class="nv on"><span class="nv-i">🏠</span><span class="nv-l">Inicio</span></a><a href="#llegada" class="nv"><span class="nv-i">🔑</span><span class="nv-l">Llegada</span></a><a href="#wifi" class="nv"><span class="nv-i">📶</span><span class="nv-l">WiFi</span></a><a href="#comer" class="nv"><span class="nv-i">🍽️</span><span class="nv-l">Comer</span></a><a href="#club" class="nv"><span class="nv-i">⭐</span><span class="nv-l">Club</span></a></nav>
 
 <script>
+
+function setLang(l){
+if(l==='en')window.location.href='en.html'+window.location.search.replace(/lang=[^&]*/,'lang=en');
+document.getElementById('lDD').classList.remove('open');
+}
+// Auto-detect: redirect English browsers to en.html
+(function(){var p=new URLSearchParams(window.location.search);if(p.get('lang')==='en'){window.location.href='en.html?lang=en';return}if(!p.get('lang')){var bl=navigator.language||navigator.userLanguage||'es';if(bl.startsWith('en'))window.location.href='en.html?lang=en'}})();
 function toggleLang(){document.getElementById('lDD').classList.toggle('open')}
 document.addEventListener('click',function(e){var d=document.getElementById('lDD'),b=document.getElementById('lBtn');if(d&&!d.contains(e.target)&&b&&!b.contains(e.target))d.classList.remove('open')});
-function setLang(l){document.getElementById('lDD').classList.remove('open');document.querySelectorAll('.lang-opt').forEach(function(o,i){o.classList.toggle('on',(l==='es'&&i===0)||(l==='en'&&i===1))});document.getElementById('lFlag').textContent=l==='es'?'🇪🇸':'🇬🇧';document.getElementById('lCode').textContent=l.toUpperCase()}
+// Complete translation system
+
+
 function toggleIC(id){document.getElementById(id).classList.toggle('open')}
 function cpWifi(t){var v=document.getElementById(t==='r'?'wfr':'wfp').textContent;if(navigator.clipboard)navigator.clipboard.writeText(v);else{var a=document.createElement('textarea');a.value=v;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a)}var to=document.getElementById('toast');to.textContent='✓ Copiado';to.classList.add('show');setTimeout(function(){to.classList.remove('show')},2200)}
 function toggleG(id){var el=document.getElementById(id);el.classList.toggle('open')}
