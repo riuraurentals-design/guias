@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1c1c1a">
+<meta name="format-detection" content="telephone=no">
+<title>InvenProp · Riu Rau Rentals</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231c1c1a' width='100' height='100' rx='20'/><text x='50' y='62' text-anchor='middle' font-size='40'>🏠</text></svg>">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+html{height:100%;overflow:hidden}
+body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#faf8f4;color:#1c1c1a;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+#root{height:100%;display:flex;flex-direction:column}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.wrap{max-width:600px;margin:0 auto;padding:16px;padding-bottom:env(safe-area-inset-bottom,16px)}
+@keyframes su{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+button,input,select,textarea{font-family:inherit;font-size:16px;-webkit-appearance:none;appearance:none;border-radius:0}
+input[type=number]{-moz-appearance:textfield}
+.inp{width:100%;padding:12px;border-radius:10px;border:1.5px solid #d6d0c4;font-size:16px;background:#fff;outline:none;color:#1c1c1a}
+.inp:focus{border-color:#c9a96e}
+textarea.inp{min-height:70px;resize:vertical}
+select.inp{background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8578' fill='none' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;padding-right:32px}
+.lbl{display:block;font-size:13px;font-weight:600;color:#5c5647;margin-bottom:5px}
+.mb{margin-bottom:14px}
+.card{background:#fff;border-radius:14px;padding:16px;border:1px solid #e8e3da;margin-bottom:12px}
+.hdr{background:#1c1c1a;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;padding-top:max(12px,env(safe-area-inset-top))}
+.overlay{position:fixed;inset:0;z-index:999;background:rgba(28,28,26,.5);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:560px;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;padding-bottom:max(20px,env(safe-area-inset-bottom));animation:su .2s ease}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toast{position:fixed;bottom:max(24px,env(safe-area-inset-bottom,24px));left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:14px;font-size:14px;font-weight:600;z-index:9999;color:#fff;display:none;animation:su .2s;white-space:nowrap}
+.zt{padding:8px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;display:inline-block;margin:0 4px 6px 0;border:1.5px solid #d6d0c4;background:#fff;color:#8a8578}
+.zt.on{border-color:#c9a96e;background:#c9a96e15;color:#a3814a}
+.stb{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #e2ddd4;background:#fff;color:#8a8578;display:inline-block;margin:0 4px 6px 0}
+.stb.on{background:var(--bg);border-color:var(--bc);color:var(--bc)}
+.zTab{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;border:1.5px solid #e2ddd4;background:#fff;color:#5c5647}
+.zTab.on{border-color:#c9a96e;background:#1c1c1a;color:#c9a96e}
+.iRow{padding:12px;border-radius:10px;border:1px solid #e8e3da;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;background:#faf8f4;cursor:pointer}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-s{padding:1px 7px;font-size:10px}
+.phAdd{width:76px;height:76px;border-radius:10px;border:2px dashed rgba(201,169,110,.4);background:#faf8f4;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#8a8578;font-size:11px;font-weight:600}
+.phThumb{position:relative;width:76px;height:76px;border-radius:10px;overflow:hidden;border:1.5px solid #e2ddd4}
+.phThumb img{width:100%;height:100%;object-fit:cover}
+.phDel{position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.pre{padding:6px 12px;border-radius:14px;border:1px dashed rgba(201,169,110,.4);background:#faf8f4;font-size:12px;cursor:pointer;color:#8a8578;display:inline-block;margin:0 4px 5px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;border:none}
+.btn-a{background:#c9a96e;color:#1c1c1a}
+.btn-p{background:#1c1c1a;color:#fafaf8}
+.btn-s{background:#f0ebe3;color:#1c1c1a}
+.btn-g{background:transparent;color:#8a8578}
+.btn-d{background:#fef2f2;color:#dc2626}
+.btn-ok{background:#ecfdf5;color:#059669}
+.btn-sm{padding:8px 14px;font-size:12px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+// ─── DATA ───
+var ZONES=["Entrada","Salón","Cocina","Dormitorio 1","Dormitorio 2","Baño 1","Baño 2","Terraza","Jardín","Piscina","Garaje","Trastero"];
+var CATS=["Mobiliario","Electrodoméstico","Menaje","Decoración","Textil","Iluminación","Tecnología","Llaves/Mandos","Herramientas","Otro"];
+// [value, label, color, icon]
+var STS=[["nuevo","Nuevo","#10b981","✦"],["bueno","Bueno","#3b82f6","●"],["usado","Usado","#f59e0b","◐"],["dañado","Dañado","#ef4444","✕"],["pendiente","Pendiente","#8b5cf6","?"],["faltante","Faltante","#6b7280","○"]];
+var RST=[["igual","Igual","#10b981","✓"],["falta","Falta","#ef4444","✕"],["dañado","Dañado","#f59e0b","⚠"],["sustituido","Sustituido","#3b82f6","↺"],["nuevo","Nuevo","#8b5cf6","+"],["pendiente","Pendiente","#6b7280","?"]];
+var PRESETS={"Cocina":"Nevera,Horno,Microondas,Lavavajillas,Tostadora,Cafetera,Sartenes,Ollas,Cubertería,Vajilla,Vasos","Salón":"Sofá,Mesa centro,TV,Mando TV,Lámpara,Cortinas,Alfombra,Cojines","Dormitorio 1":"Cama,Colchón,Mesita noche,Armario,Lámpara,Ropa de cama,Almohadas","Dormitorio 2":"Cama,Colchón,Mesita noche,Armario,Lámpara,Ropa de cama","Baño 1":"Espejo,Toallero,Mampara,WC,Secador,Toallas,Papelera","Baño 2":"Espejo,Toallero,WC,Toallas","Entrada":"Llave principal,Mando garaje,Mando portal,Perchero,Felpudo","Terraza":"Mesa exterior,Sillas,Sombrilla,Tendedero,Macetas"};
+
+// ─── UTILS ───
+function $(id){return document.getElementById(id)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function fmt(d){return new Date(d).toLocaleDateString("es-ES",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function fmtL(d){return new Date(d).toLocaleDateString("es-ES",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
+function fmtD(d){return new Date(d).toISOString().slice(0,10)}
+function esc(s){return(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function bdg(t,c,sm){return '<span class="badge'+(sm?" badge-s":"")+'" style="background:'+c+'18;color:'+c+';border:1px solid '+c+'30">'+t+'</span>';}
+
+// ─── STORAGE with fallback ───
+var memStore={};
+function sGet(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return memStore[k]||null}}
+function sSet(k,v){memStore[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){console.error("Storage full:",k,e);}}
+
+// ─── STATE ───
+var props=sGet("ip.p")||[];
+var invs=sGet("ip.i")||[];
+var users=sGet("ip.us")||[
+  {id:"admin1",name:"Alex",role:"admin",pin:"1234"},
+  {id:"admin2",name:"Fran",role:"admin",pin:"1234"}
+];
+var user=sGet("ip.u")||null;
+var scr=user?"home":"login";
+var sp=null,si=null,az=null;
+var modal=null;
+var iForm={},iIdx=null;
+var toastTimer=null;
+var editUserIdx=null;
+
+function persist(){
+  sSet("ip.p",props);sSet("ip.i",invs);sSet("ip.us",users);
+  // Check if save actually worked
+  try{
+    var test=localStorage.getItem("ip.i");
+    if(!test&&invs.length>0){
+      toast("⚠ Memoria llena. Descarga el informe.","#ef4444");
+    }
+  }catch(e){}
+}
+function isAdmin(){return user&&user.role==="admin"}
+
+function toast(msg,bg){
+  bg=bg||"#059669";
+  var t=$("toast");if(!t)return;
+  t.textContent=msg;t.style.background=bg;t.style.display="block";
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){t.style.display="none"},2500);
+}
+
+// ─── Save zone notes before any screen change ───
+function saveZoneNotes(){
+  var el=$("zn");
+  if(el&&si&&az&&si.zones[az]){si.zones[az].notes=el.value;persist();}
+}
+
+// ─── SINGLE EVENT DELEGATION ───
+// All interactive elements use data-a="action:param1:param2"
+// This works on every browser including iOS Safari
+document.addEventListener("click",function(e){
+  // Don't intercept clicks on file inputs or labels containing file inputs
+  var clicked=e.target;
+  if(clicked.type==="file") return;
+  if(clicked.tagName==="LABEL"||clicked.tagName==="SPAN"){
+    var fi=clicked.closest("label");
+    if(fi&&fi.querySelector('input[type="file"]')) return;
+  }
+  // Find closest element with data-a
+  var el=clicked;
+  while(el&&el!==document.body){
+    if(el.getAttribute&&el.getAttribute("data-a")){
+      e.preventDefault();
+      e.stopPropagation();
+      handleAction(el.getAttribute("data-a"),el,e);
+      return;
+    }
+    el=el.parentElement;
+  }
+},false);
+
+// File inputs - use change event
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.type==="file"&&t.getAttribute("data-ph")!==null){
+    handlePhotos(t.getAttribute("data-ph"),t.files);
+    t.value="";
+  }
+},false);
+
+// ─── ACTION HANDLER ───
+function handleAction(a,el,e){
+  var parts=a.split(":");
+  var cmd=parts[0];
+  var p1=parts[1]||"";
+  var p2=parts[2]||"";
+
+  switch(cmd){
+    case "login":doLogin();break;
+    case "home":saveZoneNotes();scr="home";sp=null;si=null;az=null;modal=null;R();break;
+    case "goprop":saveZoneNotes();scr="property";si=null;az=null;modal=null;R();break;
+    case "opennp":modal="newprop";R();break;
+    case "closem":modal=null;R();break;
+    case "togglez":
+      el.classList.toggle("on");
+      var on=el.classList.contains("on");
+      el.style.borderColor=on?"#c9a96e":"#d6d0c4";
+      el.style.background=on?"rgba(201,169,110,.09)":"#fff";
+      el.style.color=on?"#a3814a":"#8a8578";
+      break;
+    case "createp":doCreateProp();break;
+    case "selp":sp=props[+p1];scr="property";R();break;
+    case "delp":doDelProp();break;
+    case "delyes":doDelPropConfirm();break;
+    case "rmconf":modal="confirmrm:"+p1;R();break;
+    case "rmyes":doRmItemConfirm();break;
+    case "finconf":modal="confirmfin";R();break;
+    case "finyes":doFinalizeConfirm();break;
+    case "startinv":doStartInv(p1);break;
+    case "openinv":doOpenInv(+p1);break;
+    case "opencomp":doOpenComp(+p1);break;
+    case "setzone":saveZoneNotes();az=parts.slice(1).join(":");R();break;
+    case "qadd":doQuickAdd(parts.slice(1).join(":"));break;
+    case "ifopen":doOpenItemForm();break;
+    case "ifedit":doEditItem(+p1);break;
+    case "ifstate":doSetItemState(p1,el);break;
+    case "ifsave":doSaveItem();break;
+    case "rmitem":e.stopPropagation();modal="confirmrm:"+p1;R();break;
+    case "rmph":e.stopPropagation();iForm.photos.splice(+p1,1);R();break;
+    case "final":saveZoneNotes();modal="confirmfin";R();break;
+    case "export":doExport();break;
+    // overlay background click = close
+    case "closebg":modal=null;R();break;
+    // stop propagation on sheet
+    case "stop":break;
+    // ── User management ──
+    case "logout":user=null;sSet("ip.u",null);scr="login";R();break;
+    case "gousers":scr="users";R();break;
+    case "adduser":modal="adduser";R();break;
+    case "saveuser":doSaveUser();break;
+    case "deluser":doDelUser(+p1);break;
+    case "deluseryes":doDelUserConfirm();break;
+  }
+}
+
+// ─── ACTION IMPLEMENTATIONS ───
+function doLogin(){
+  var n=$("ln");if(!n)return;
+  var name=n.value.trim().toLowerCase();
+  var pin=$("lp")?$("lp").value.trim():"";
+  if(!name){toast("Escribe tu nombre","#ef4444");return;}
+  if(!pin){toast("Escribe tu PIN","#ef4444");return;}
+  // Find user
+  var found=null;
+  for(var i=0;i<users.length;i++){
+    if(users[i].name.toLowerCase()===name&&users[i].pin===pin){found=users[i];break;}
+  }
+  if(!found){toast("Usuario o PIN incorrecto","#ef4444");return;}
+  user={id:found.id,name:found.name,role:found.role};
+  sSet("ip.u",user);scr="home";R();
+  toast("Hola, "+found.name);
+}
+
+function doCreateProp(){
+  var nameEl=$("npN");if(!nameEl)return;
+  var name=nameEl.value.trim();
+  if(!name){toast("Pon un nombre","#ef4444");return;}
+  var zones=[];
+  var btns=document.querySelectorAll("#zList .on");
+  for(var i=0;i<btns.length;i++)zones.push(btns[i].textContent.trim());
+  if(!zones.length){toast("Selecciona zonas","#ef4444");return;}
+  var p={id:uid(),name:name,
+    address:($("npA")?$("npA").value.trim():""),
+    owner:($("npO")?$("npO").value.trim():""),
+    type:($("npT")?$("npT").value:"turístico"),
+    zones:zones,createdAt:new Date().toISOString(),createdBy:user.name};
+  props.push(p);persist();
+  modal=null;R();
+  toast("✓ Propiedad creada");
+}
+
+function doDelProp(){
+  // iOS Safari blocks confirm() from delegated events, use modal instead
+  modal="confirmdel";R();
+}
+function doDelPropConfirm(){
+  props=props.filter(function(x){return x.id!==sp.id});
+  invs=invs.filter(function(x){return x.propertyId!==sp.id});
+  persist();sp=null;modal=null;scr="home";R();
+  toast("✓ Propiedad eliminada");
+}
+
+function doStartInv(type){
+  var ini=null;
+  for(var i=0;i<invs.length;i++){if(invs[i].propertyId===sp.id&&invs[i].type==="inicial"){ini=invs[i];break;}}
+  var inv={id:uid(),propertyId:sp.id,type:type,createdAt:new Date().toISOString(),createdBy:user.name,status:"borrador",zones:{},baseId:type==="revision"&&ini?ini.id:null};
+  for(var j=0;j<sp.zones.length;j++){inv.zones[sp.zones[j]]={items:[],photos:[],notes:""};}
+  if(type==="revision"&&ini){
+    var zks=Object.keys(ini.zones);
+    for(var k=0;k<zks.length;k++){
+      var zk=zks[k];
+      if(inv.zones[zk]){
+        inv.zones[zk].items=ini.zones[zk].items.map(function(it){
+          return Object.assign({},it,{id:uid(),origId:it.id,rs:"pendiente",rn:""});
+        });
+      }
+    }
+  }
+  invs.push(inv);persist();
+  si=inv;az=Object.keys(inv.zones)[0];scr="inventory";R();
+}
+
+function doOpenInv(idx){
+  var pi=invs.filter(function(i){return i.propertyId===sp.id}).sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
+  si=pi[idx];az=Object.keys(si.zones)[0];scr="inventory";R();
+}
+function doOpenComp(idx){
+  var pi=invs.filter(function(i){return i.propertyId===sp.id}).sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
+  si=pi[idx];scr="comparison";R();
+}
+
+function doQuickAdd(name){
+  si.zones[az].items.push({id:uid(),name:name,category:"",quantity:1,state:"bueno",photos:[],createdAt:new Date().toISOString(),createdBy:user.name});
+  persist();R();
+}
+
+function doOpenItemForm(){
+  iForm={name:"",category:"",quantity:1,brand:"",serial:"",state:"bueno",desc:"",notes:"",photos:[],rs:"pendiente",rn:""};
+  iIdx=null;modal="item";R();
+}
+
+function doEditItem(idx){
+  if(si.status==="completado")return;
+  var it=si.zones[az].items[idx];
+  iForm=Object.assign({},it,{photos:(it.photos||[]).slice()});
+  iIdx=idx;modal="item";R();
+}
+
+function doSetItemState(val,el){
+  var isR=si&&si.type==="revision";
+  if(isR)iForm.rs=val;else iForm.state=val;
+  var btns=document.querySelectorAll(".stb");
+  for(var i=0;i<btns.length;i++){
+    var b=btns[i];var bv=b.getAttribute("data-v");var bc=b.getAttribute("data-c");
+    var on=bv===val;
+    b.classList.toggle("on",on);
+    b.style.setProperty("--bc",bc);b.style.setProperty("--bg",bc+"18");
+    b.style.borderColor=on?bc:"#e2ddd4";
+    b.style.background=on?bc+"18":"#fff";
+    b.style.color=on?bc:"#8a8578";
+  }
+}
+
+function doSaveItem(){
+  var f=iForm;
+  f.name=($("ifN")?$("ifN").value.trim():"")||f.name;
+  f.category=$("ifC")?$("ifC").value:"";
+  f.quantity=parseInt($("ifQ")?$("ifQ").value:"1")||1;
+  f.brand=$("ifB")?$("ifB").value:"";
+  f.serial=$("ifS")?$("ifS").value:"";
+  f.desc=$("ifD")?$("ifD").value:"";
+  f.notes=$("ifNO")?$("ifNO").value:"";
+  if(si.type==="revision")f.rn=$("ifRN")?$("ifRN").value:"";
+  if(!f.name){toast("Pon un nombre","#ef4444");return;}
+  if(iIdx!==null){si.zones[az].items[iIdx]=Object.assign({},f,{updatedAt:new Date().toISOString()});}
+  else{si.zones[az].items.push(Object.assign({},f,{id:uid(),createdAt:new Date().toISOString(),createdBy:user.name}));}
+  persist();modal=null;R();
+}
+
+function doRmItemConfirm(){
+  var idx=parseInt((modal||"").split(":")[1]);
+  if(!isNaN(idx)){si.zones[az].items.splice(idx,1);persist();}
+  modal=null;R();
+}
+
+function doFinalizeConfirm(){
+  si.status="completado";si.completedAt=new Date().toISOString();persist();
+  modal=null;
+  toast("✓ Finalizado");
+  if(si.type==="revision")scr="comparison";else scr="property";
+  R();
+}
+
+function compressImage(dataUrl,maxW,quality,cb){
+  var img=new Image();
+  img.onload=function(){
+    var w=img.width,h=img.height;
+    if(w>maxW){h=Math.round(h*(maxW/w));w=maxW;}
+    var c=document.createElement("canvas");
+    c.width=w;c.height=h;
+    var ctx=c.getContext("2d");
+    ctx.drawImage(img,0,0,w,h);
+    cb(c.toDataURL("image/jpeg",quality));
+  };
+  img.onerror=function(){cb(dataUrl);};
+  img.src=dataUrl;
+}
+
+function handlePhotos(target,files){
+  for(var i=0;i<files.length;i++){
+    (function(file){
+      var r=new FileReader();
+      r.onload=function(ev){
+        compressImage(ev.target.result,800,0.6,function(compressed){
+          var ph={id:uid(),data:compressed,name:file.name};
+          if(target==="form"){iForm.photos.push(ph);R();}
+          else if(target.indexOf("z-")===0){
+            var z=target.slice(2);
+            if(si&&si.zones[z]){si.zones[z].photos.push(ph);persist();R();}
+          }
+        });
+      };
+      r.readAsDataURL(file);
+    })(files[i]);
+  }
+}
+
+function doExport(){
+  if(!si||!sp)return;
+  var inv=si,p=sp,isR=inv.type==="revision";
+  var h='<!DOCTYPE html><html lang=es><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Inventario - '+esc(p.name)+'</title>';
+  h+='<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,system-ui,sans-serif;background:#faf8f4;color:#1c1c1a;line-height:1.5}.hd{background:#1c1c1a;color:#fafaf8;padding:32px 24px;text-align:center}.z{background:#fff;border-radius:14px;padding:20px;margin:0 auto 16px;max-width:700px;border:1px solid #e8e3da}.z h3{font-size:16px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f0ebe3}.it{padding:10px;border-radius:8px;margin-bottom:6px;background:#faf8f4;border:1px solid #f0ebe3}.b{display:inline-flex;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}.ph{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ph img{width:80px;height:80px;object-fit:cover;border-radius:6px}</style></head><body>';
+  h+='<div class=hd><div style="font-size:11px;letter-spacing:.15em;color:#c9a96e;margin-bottom:12px;text-transform:uppercase">✦ riu / rau · rentals ✦</div>';
+  h+='<h1 style="font-size:22px;font-weight:300">'+(isR?"Revisión":"Inventario Inicial")+'</h1>';
+  h+='<div style="font-size:12px;color:rgba(250,250,248,.5);letter-spacing:.1em;text-transform:uppercase;margin-top:4px">'+esc(p.name)+'</div>';
+  h+='<div style="font-size:13px;color:rgba(250,250,248,.7);margin-top:8px">'+fmtL(inv.createdAt)+' · '+esc(inv.createdBy)+'</div></div><div style="padding:20px">';
+  var zks=Object.keys(inv.zones);
+  for(var zi=0;zi<zks.length;zi++){
+    var zn=zks[zi],z=inv.zones[zn];if(!z.items.length)continue;
+    h+='<div class=z><h3>'+esc(zn)+'</h3>';
+    for(var ii=0;ii<z.items.length;ii++){
+      var it=z.items[ii];var sts=isR?RST:STS;
+      var s=sts.find(function(x){return x[0]===(isR?(it.rs||"pendiente"):it.state)})||sts[1];
+      h+='<div class=it><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><strong>'+esc(it.name)+'</strong>';
+      if(it.quantity>1)h+='<span style="font-size:11px;color:#8a8578">×'+it.quantity+'</span>';
+      h+='<span class=b style="background:'+s[2]+'15;color:'+s[2]+';border:1px solid '+s[2]+'30">'+s[3]+' '+s[1]+'</span></div>';
+      if(it.category)h+='<div style="font-size:12px;color:#5c5647;margin-top:3px">'+esc(it.category)+'</div>';
+      if(it.desc)h+='<div style="font-size:12px;color:#5c5647;margin-top:3px">'+esc(it.desc)+'</div>';
+      if(it.notes)h+='<div style="font-size:12px;color:#8a8578;margin-top:3px;font-style:italic">📝 '+esc(it.notes)+'</div>';
+      if(it.photos&&it.photos.length){h+='<div class=ph>';for(var pi=0;pi<it.photos.length;pi++){h+='<img src="'+it.photos[pi].data+'">';}h+='</div>';}
+      h+='</div>';
+    }
+    if(z.notes)h+='<div style="font-size:12px;color:#8a8578;font-style:italic;margin-top:10px">📝 '+esc(z.notes)+'</div>';
+    h+='</div>';
+  }
+  h+='</div><div style="text-align:center;padding:32px;font-size:11px;color:#8a8578;border-top:1px solid #e8e3da">✦ riu / rau · rentals ✦<br>InvenProp · '+fmt(new Date())+'</div></body></html>';
+  // Download
+  var blob=new Blob([h],{type:"text/html"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="inventario-"+p.name.replace(/\W/g,"_")+"-"+fmtD(inv.createdAt)+".html";
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url)},100);
+  toast("✓ Informe descargado");
+}
+
+// ─── USER MANAGEMENT ───
+function doSaveUser(){
+  var name=$("nuN")?$("nuN").value.trim():"";
+  var pin=$("nuP")?$("nuP").value.trim():"";
+  var role=$("nuR")?$("nuR").value:"personal";
+  if(!name){toast("Pon un nombre","#ef4444");return;}
+  if(!pin||pin.length<4){toast("PIN mínimo 4 dígitos","#ef4444");return;}
+  // Check duplicate
+  for(var i=0;i<users.length;i++){
+    if(users[i].name.toLowerCase()===name.toLowerCase()){toast("Ya existe ese usuario","#ef4444");return;}
+  }
+  users.push({id:uid(),name:name,role:role,pin:pin});
+  persist();modal=null;R();
+  toast("✓ Usuario creado");
+}
+
+function doDelUser(idx){
+  editUserIdx=idx;modal="confirmdeluser";R();
+}
+function doDelUserConfirm(){
+  if(editUserIdx!==null&&editUserIdx>=0&&editUserIdx<users.length){
+    var u=users[editUserIdx];
+    if(u.id===user.id){toast("No puedes eliminarte a ti mismo","#ef4444");modal=null;R();return;}
+    users.splice(editUserIdx,1);persist();
+  }
+  editUserIdx=null;modal=null;R();
+  toast("✓ Usuario eliminado");
+}
+
+// ──────────────────────────
+// RENDER
+// ──────────────────────────
+function R(){
+  var root=$("root");
+  var o="";
+
+  // ── LOGIN ──
+  if(scr==="login"){
+    root.innerHTML=
+      '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1c1c1a">'+
+      '<div class="card" style="width:92%;max-width:380px;padding:32px;text-align:center">'+
+      '<div style="font-size:11px;letter-spacing:.15em;color:#c9a96e;text-transform:uppercase;font-weight:600">✦ riu / rau · rentals ✦</div>'+
+      '<h1 style="font-size:24px;font-weight:300;margin:10px 0 4px">InvenProp</h1>'+
+      '<p style="font-size:13px;color:#8a8578;margin:0 0 28px">Inventario de Propiedades</p>'+
+      '<div class="mb"><label class="lbl">Tu nombre *</label><input id="ln" class="inp" placeholder="Tu nombre exacto" autocomplete="off"></div>'+
+      '<div class="mb"><label class="lbl">PIN *</label><input id="lp" class="inp" type="password" inputmode="numeric" placeholder="Tu código PIN" autocomplete="off"></div>'+
+      '<button class="btn btn-a" data-a="login" style="width:100%">→ Acceder</button>'+
+      '<p style="font-size:11px;color:#8a8578;margin-top:16px">¿No tienes cuenta? Pídela a un administrador.</p>'+
+      '</div></div>';
+    return;
+  }
+
+  // ── HEADER ──
+  o+='<div class="hdr">'+
+    '<div data-a="home" style="display:flex;align-items:center;gap:10px;cursor:pointer">'+
+    '<span style="font-size:11px;letter-spacing:.12em;color:#c9a96e;font-weight:600;text-transform:uppercase">riu / rau</span>'+
+    '<span style="font-size:14px;font-weight:700;color:#fafaf8">InvenProp</span>'+
+    '</div>'+
+    '<div style="display:flex;align-items:center;gap:8px">'+
+    (isAdmin()?'<span data-a="gousers" style="font-size:12px;color:#c9a96e;cursor:pointer;font-weight:600">👥 Equipo</span>':'')+
+    '<span data-a="logout" style="font-size:18px;cursor:pointer;color:#fafaf8aa" title="Cerrar sesión">⏻</span>'+
+    '<div style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;background:rgba(250,250,248,.08)">'+
+    '<div style="width:26px;height:26px;border-radius:50%;background:'+(isAdmin()?"#c9a96e":"#8a8578")+';color:#1c1c1a;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">'+user.name[0].toUpperCase()+'</div>'+
+    '<span style="font-size:12px;font-weight:600;color:#fafaf8">'+esc(user.name)+'</span>'+
+    '</div></div></div>';
+
+  o+='<div class="scroll"><div class="wrap">';
+
+  // ── HOME ──
+  if(scr==="home"){
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">'+
+      '<div><h2 style="font-size:20px">Propiedades</h2><p style="font-size:12px;color:#8a8578">'+props.length+' registradas</p></div>'+
+      (isAdmin()?'<button class="btn btn-a" data-a="opennp">＋ Nueva</button>':'')+
+      '</div>';
+
+    if(!props.length){
+      o+='<div class="card" style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:8px">🏡</div><p style="color:#8a8578;font-size:14px">No hay propiedades aún</p></div>';
+    }
+    for(var i=0;i<props.length;i++){
+      var p=props[i];
+      var ic=invs.filter(function(x){return x.propertyId===p.id}).length;
+      o+='<div class="card" data-a="selp:'+i+'" style="cursor:pointer">'+
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
+        '<div><h3 style="margin:0 0 4px;font-size:15px">'+esc(p.name)+'</h3>'+
+        '<p style="margin:0;font-size:12px;color:#8a8578">'+(esc(p.address)||"Sin dirección")+'</p>'+
+        '<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">'+bdg(p.type,"#c9a96e",1)+' '+bdg(p.zones.length+" zonas","#8a8578",1)+' '+bdg(ic+" inv.","#3b82f6",1)+'</div></div>'+
+        '<span style="font-size:22px;color:#c9a96e">›</span></div></div>';
+    }
+
+    // Modal: new property
+    if(modal==="newprop"){
+      var zb="";
+      for(var zi=0;zi<ZONES.length;zi++){
+        zb+='<span class="zt on" data-a="togglez:'+zi+'" style="border-color:#c9a96e;background:rgba(201,169,110,.09);color:#a3814a">'+ZONES[zi]+'</span>';
+      }
+      o+='<div class="overlay" data-a="closebg">'+
+        '<div class="sheet" data-a="stop">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'+
+        '<h3 style="font-size:18px">Nueva Propiedad</h3>'+
+        '<button data-a="closem" style="background:#f0ebe3;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px">×</button></div>'+
+        '<div class="mb"><label class="lbl">Nombre *</label><input id="npN" class="inp" placeholder="Ej: Villa Arenal 23" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">Dirección</label><input id="npA" class="inp" placeholder="Calle, número, ciudad" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">Propietario</label><input id="npO" class="inp" placeholder="Nombre del propietario" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">Tipo</label><select id="npT" class="inp"><option value="turístico">Alquiler turístico</option><option value="temporada">Temporada</option><option value="anual">Anual</option></select></div>'+
+        '<label class="lbl">Zonas (pulsa para quitar/añadir)</label>'+
+        '<div id="zList" style="margin-bottom:16px">'+zb+'</div>'+
+        '<button class="btn btn-a" data-a="createp" style="width:100%">✓ Crear propiedad</button>'+
+        '</div></div>';
+    }
+  }
+
+  // ── PROPERTY ──
+  if(scr==="property"&&sp){
+    var pi=invs.filter(function(x){return x.propertyId===sp.id}).sort(function(a,b){return new Date(b.createdAt)-new Date(a.createdAt)});
+    var ini=null;for(var ii=0;ii<pi.length;ii++){if(pi[ii].type==="inicial"){ini=pi[ii];break;}}
+
+    o+='<button data-a="home" style="background:none;border:none;color:#8a8578;font-size:14px;cursor:pointer;margin-bottom:12px;padding:4px 0">← Propiedades</button>';
+    o+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">'+
+      '<div><h2 style="font-size:20px">'+esc(sp.name)+'</h2><p style="font-size:12px;color:#8a8578;margin-top:2px">'+esc(sp.address)+'</p></div>'+
+      '<button class="btn btn-d btn-sm" data-a="delp" style="'+(isAdmin()?"":"display:none")+'">🗑 Eliminar</button>'+
+      '</div>';
+    o+='<div class="card"><div class="g2" style="font-size:13px">'+
+      '<div><span style="color:#8a8578">Propietario:</span> <b>'+(esc(sp.owner)||"—")+'</b></div>'+
+      '<div><span style="color:#8a8578">Tipo:</span> <b>'+sp.type+'</b></div>'+
+      '<div><span style="color:#8a8578">Zonas:</span> <b>'+sp.zones.length+'</b></div>'+
+      '<div><span style="color:#8a8578">Creada:</span> <b>'+fmt(sp.createdAt)+'</b></div>'+
+      '</div></div>';
+    o+='<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">';
+    if(!ini&&isAdmin())o+='<button class="btn btn-a" data-a="startinv:inicial">📋 Inventario inicial</button>';
+    if(ini)o+='<button class="btn btn-s" data-a="startinv:revision">🔄 Nueva revisión</button>';
+    o+='</div>';
+    o+='<h3 style="font-size:14px;color:#5c5647;margin-bottom:10px">Historial ('+pi.length+')</h3>';
+    if(!pi.length)o+='<p style="font-size:13px;color:#b5ae9e">Sin inventarios</p>';
+    for(var j=0;j<pi.length;j++){
+      var inv=pi[j];
+      var ti=0;var zks=Object.keys(inv.zones);for(var k=0;k<zks.length;k++)ti+=inv.zones[zks[k]].items.length;
+      var click=inv.type==="revision"&&inv.status==="completado"?"opencomp:"+j:"openinv:"+j;
+      o+='<div class="card" data-a="'+click+'" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center">'+
+        '<div><div style="display:flex;gap:6px;align-items:center;margin-bottom:4px"><span style="font-size:14px;font-weight:700">'+(inv.type==="inicial"?"Inventario Inicial":"Revisión")+'</span>'+
+        bdg(inv.status,inv.status==="completado"?"#10b981":"#c9a96e",1)+'</div>'+
+        '<p style="margin:0;font-size:11px;color:#8a8578">'+fmtL(inv.createdAt)+' · '+esc(inv.createdBy)+' · '+ti+' elem.</p></div>'+
+        '<span style="font-size:22px;color:#c9a96e">›</span></div></div>';
+    }
+  }
+
+  // ── INVENTORY ──
+  if(scr==="inventory"&&si){
+    var inv=si;var isR=inv.type==="revision";
+    var allZ=Object.keys(inv.zones);
+    if(!az||allZ.indexOf(az)<0)az=allZ[0];
+    var zone=inv.zones[az];
+    var ti=0,zw=0;for(var zi=0;zi<allZ.length;zi++){var zc=inv.zones[allZ[zi]].items.length;ti+=zc;if(zc>0)zw++;}
+    var ci=allZ.indexOf(az);var pct=allZ.length?Math.round(zw/allZ.length*100):0;
+
+    o+='<button data-a="goprop" style="background:none;border:none;color:#8a8578;font-size:14px;cursor:pointer;margin-bottom:8px;padding:4px 0">← '+esc(sp.name)+'</button>';
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'+
+      '<div><h2 style="font-size:17px">'+(isR?"Revisión":"Inventario Inicial")+'</h2>'+
+      '<p style="font-size:11px;color:#8a8578">'+fmtL(inv.createdAt)+' · '+ti+' elem.</p></div>'+
+      bdg(inv.status,inv.status==="completado"?"#10b981":"#c9a96e")+'</div>';
+    o+='<div style="margin-bottom:10px"><div style="font-size:11px;color:#8a8578;margin-bottom:3px;display:flex;justify-content:space-between"><span>Progreso</span><span>'+pct+'%</span></div>'+
+      '<div style="height:6px;border-radius:3px;background:#e8e3da"><div style="height:100%;border-radius:3px;background:linear-gradient(90deg,#c9a96e,#a3814a);width:'+pct+'%;transition:width .3s"></div></div></div>';
+
+    // Zone tabs
+    o+='<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;-webkit-overflow-scrolling:touch">';
+    for(var zi=0;zi<allZ.length;zi++){
+      var z=allZ[zi];var n=inv.zones[z].items.length;var on=az===z;
+      o+='<span class="zTab'+(on?" on":"")+'" data-a="setzone:'+z+'">'+esc(z)+(n?'<span style="background:'+(on?"rgba(201,169,110,.25)":"#f0ebe3")+';border-radius:10px;padding:0 6px;font-size:10px">'+n+'</span>':'')+'</span>';
+    }
+    o+='</div>';
+
+    // Zone card
+    o+='<div class="card">';
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 style="font-size:16px">'+esc(az)+'</h3>';
+    if(inv.status!=="completado")o+='<button class="btn btn-a btn-sm" data-a="ifopen">＋ Elemento</button>';
+    o+='</div>';
+
+    // Presets
+    var prs=(PRESETS[az]||"").split(",").filter(function(x){return x&&!zone.items.some(function(it){return it.name.toLowerCase()===x.toLowerCase()})});
+    if(inv.status!=="completado"&&prs.length){
+      o+='<div style="margin-bottom:12px"><p style="font-size:11px;color:#b5ae9e;margin-bottom:6px">Añadir rápido:</p><div>';
+      for(var pi=0;pi<prs.length&&pi<8;pi++){
+        o+='<span class="pre" data-a="qadd:'+esc(prs[pi])+'">+ '+esc(prs[pi])+'</span>';
+      }
+      o+='</div></div>';
+    }
+
+    // Items
+    if(!zone.items.length)o+='<p style="font-size:13px;color:#b5ae9e;text-align:center;padding:16px 0">Sin elementos en esta zona</p>';
+    for(var ii=0;ii<zone.items.length;ii++){
+      var it=zone.items[ii];var sts=isR?RST:STS;
+      var s=sts.find(function(x){return x[0]===(isR?(it.rs||"pendiente"):it.state)})||sts[1];
+      o+='<div class="iRow" data-a="ifedit:'+ii+'">'+
+        '<div style="flex:1;min-width:0"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;font-weight:600">'+esc(it.name)+'</span>'+(it.quantity>1?bdg("×"+it.quantity,"#8a8578",1):"")+'</div>'+
+        '<div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">'+bdg(s[3]+" "+s[1],s[2],1)+(it.category?bdg(it.category,"#8a8578",1):"")+((it.photos&&it.photos.length)?bdg("📷 "+it.photos.length,"#3b82f6",1):"")+'</div></div>';
+      if(inv.status!=="completado")o+='<button data-a="rmitem:'+ii+'" style="background:none;border:none;font-size:18px;color:#b5ae9e;cursor:pointer;padding:6px 10px">×</button>';
+      o+='</div>';
+    }
+
+    // Zone photos
+    o+='<div style="margin-top:16px"><label class="lbl">Fotos de '+esc(az)+'</label><div style="display:flex;flex-wrap:wrap;gap:8px">';
+    for(var pi=0;pi<(zone.photos||[]).length;pi++){
+      o+='<div class="phThumb"><img src="'+zone.photos[pi].data+'"></div>';
+    }
+    o+='<label class="phAdd"><span style="font-size:24px">📷</span>Añadir<input type="file" accept="image/*" multiple data-ph="z-'+az+'" style="display:none"></label></div></div>';
+
+    // Zone notes
+    o+='<div class="mb" style="margin-top:12px"><label class="lbl">Observaciones de '+esc(az)+'</label><textarea id="zn" class="inp" style="min-height:70px;resize:vertical">'+esc(zone.notes)+'</textarea></div>';
+    o+='</div>'; // close card
+
+    // Nav
+    o+='<div style="display:flex;justify-content:space-between;margin:8px 0 16px">';
+    if(ci>0)o+='<button class="btn btn-g btn-sm" data-a="setzone:'+allZ[ci-1]+'">← Anterior</button>';else o+='<span></span>';
+    o+='<span style="font-size:12px;color:#b5ae9e;align-self:center">'+(ci+1)+'/'+allZ.length+'</span>';
+    if(ci<allZ.length-1)o+='<button class="btn btn-s btn-sm" data-a="setzone:'+allZ[ci+1]+'">Siguiente →</button>';
+    else if(inv.status!=="completado")o+='<button class="btn btn-ok btn-sm" data-a="final">✓ Finalizar</button>';
+    else o+='<span></span>';
+    o+='</div>';
+
+    if(inv.status==="completado"){
+      o+='<div class="card" style="text-align:center;background:#faf8f4"><p style="font-size:13px;color:#5c5647;margin-bottom:10px">Inventario completado</p><button class="btn btn-a" data-a="export">📥 Descargar informe</button></div>';
+    }
+
+    // Item modal
+    if(modal==="item"){
+      var f=iForm;var sts=isR?RST:STS;
+      var stB="";
+      for(var si2=0;si2<sts.length;si2++){
+        var s=sts[si2];var on=(isR?f.rs:f.state)===s[0];
+        stB+='<span class="stb'+(on?" on":"")+'" data-a="ifstate:'+s[0]+'" data-v="'+s[0]+'" data-c="'+s[2]+'" style="border-color:'+(on?s[2]:"#e2ddd4")+';background:'+(on?s[2]+"18":"#fff")+';color:'+(on?s[2]:"#8a8578")+'">'+s[3]+' '+s[1]+'</span>';
+      }
+      var phH='<div style="display:flex;flex-wrap:wrap;gap:8px">';
+      for(var pi2=0;pi2<(f.photos||[]).length;pi2++){
+        phH+='<div class="phThumb"><img src="'+f.photos[pi2].data+'"><button class="phDel" data-a="rmph:'+pi2+'">×</button></div>';
+      }
+      phH+='<label class="phAdd"><span style="font-size:24px">📷</span>Añadir<input type="file" accept="image/*" multiple data-ph="form" style="display:none"></label></div>';
+
+      o+='<div class="overlay" data-a="closebg">'+
+        '<div class="sheet" data-a="stop">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'+
+        '<h3 style="font-size:18px">'+(iIdx!==null?"Editar":"Nuevo")+' elemento</h3>'+
+        '<button data-a="closem" style="background:#f0ebe3;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px">×</button></div>'+
+        '<div class="mb"><label class="lbl">Nombre *</label><input id="ifN" class="inp" value="'+esc(f.name)+'" placeholder="Ej: Sofá 3 plazas" autocomplete="off"></div>'+
+        '<div class="g2"><div class="mb"><label class="lbl">Categoría</label><select id="ifC" class="inp">'+CATS.map(function(c){return '<option'+(c===(f.category||"")?' selected':'')+'>'+c+'</option>'}).join("")+'</select></div>'+
+        '<div class="mb"><label class="lbl">Cantidad</label><input id="ifQ" class="inp" type="number" value="'+(f.quantity||1)+'" inputmode="numeric"></div></div>'+
+        '<div class="g2"><div class="mb"><label class="lbl">Marca</label><input id="ifB" class="inp" value="'+esc(f.brand)+'" placeholder="Opcional" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">Nº Serie</label><input id="ifS" class="inp" value="'+esc(f.serial)+'" placeholder="Opcional" autocomplete="off"></div></div>'+
+        '<label class="lbl">'+(isR?"Estado revisión":"Estado")+'</label>'+
+        '<div style="margin-bottom:12px">'+stB+'</div>'+
+        '<div class="mb"><label class="lbl">Descripción</label><textarea id="ifD" class="inp">'+esc(f.desc)+'</textarea></div>'+
+        '<div class="mb"><label class="lbl">Observaciones</label><textarea id="ifNO" class="inp">'+esc(f.notes)+'</textarea></div>'+
+        (isR?'<div class="mb"><label class="lbl">Notas revisión</label><textarea id="ifRN" class="inp">'+esc(f.rn)+'</textarea></div>':'')+
+        '<label class="lbl">Fotos</label>'+phH+
+        '<button class="btn btn-a" data-a="ifsave" style="width:100%;margin-top:14px">✓ '+(iIdx!==null?"Guardar":"Añadir")+'</button>'+
+        '</div></div>';
+    }
+  }
+
+  // ── COMPARISON ──
+  if(scr==="comparison"&&si){
+    var inv=si;
+    var all=[];var zks=Object.keys(inv.zones);
+    for(var zi=0;zi<zks.length;zi++){var zit=inv.zones[zks[zi]].items;for(var ii=0;ii<zit.length;ii++)all.push(zit[ii]);}
+    var ct={t:all.length,ok:0,mi:0,dm:0,rp:0,nw:0};
+    for(var ai=0;ai<all.length;ai++){var rs=all[ai].rs||"pendiente";if(rs==="igual")ct.ok++;else if(rs==="falta")ct.mi++;else if(rs==="dañado")ct.dm++;else if(rs==="sustituido")ct.rp++;else if(rs==="nuevo")ct.nw++;}
+    var na=ct.mi+ct.dm;
+
+    o+='<button data-a="goprop" style="background:none;border:none;color:#8a8578;font-size:14px;cursor:pointer;margin-bottom:8px;padding:4px 0">← '+esc(sp.name)+'</button>';
+    o+='<h2 style="font-size:18px;margin-bottom:4px">Comparativa</h2>';
+    o+='<p style="font-size:12px;color:#8a8578;margin-bottom:16px">'+fmtL(inv.createdAt)+' · '+esc(inv.createdBy)+'</p>';
+    o+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-bottom:16px">';
+    var statsArr=[{l:"Total",v:ct.t,c:"#1c1c1a"},{l:"Sin cambios",v:ct.ok,c:"#10b981"},{l:"Faltantes",v:ct.mi,c:"#ef4444"},{l:"Dañados",v:ct.dm,c:"#f59e0b"},{l:"Sustituidos",v:ct.rp,c:"#3b82f6"},{l:"Nuevos",v:ct.nw,c:"#8b5cf6"}];
+    for(var si2=0;si2<statsArr.length;si2++){
+      var s=statsArr[si2];
+      o+='<div style="padding:12px;border-radius:12px;background:'+s.c+'08;border:1px solid '+s.c+'15;text-align:center"><div style="font-size:22px;font-weight:800;color:'+s.c+'">'+s.v+'</div><div style="font-size:10px;color:'+s.c+';font-weight:600;margin-top:2px">'+s.l+'</div></div>';
+    }
+    o+='</div>';
+    if(na)o+='<div class="card" style="background:#fef2f2;border-color:#fecaca"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:20px">⚠️</span><b style="font-size:13px;color:#991b1b">'+na+' requieren acción</b></div></div>';
+
+    for(var zi=0;zi<zks.length;zi++){
+      var zn=zks[zi],z=inv.zones[zn];if(!z.items.length)continue;
+      o+='<div class="card"><h3 style="margin:0 0 10px;font-size:14px">'+esc(zn)+'</h3>';
+      for(var ii=0;ii<z.items.length;ii++){
+        var it=z.items[ii];var s=RST.find(function(x){return x[0]===(it.rs||"pendiente")})||RST[5];
+        o+='<div style="padding:10px;border-radius:8px;margin-bottom:4px;background:'+s[2]+'08;border:1px solid '+s[2]+'20;display:flex;justify-content:space-between;align-items:center">'+
+          '<span style="font-size:13px;font-weight:600">'+esc(it.name)+(it.quantity>1?' <span style="font-size:11px;color:#8a8578">×'+it.quantity+'</span>':'')+'</span>'+
+          bdg(s[3]+" "+s[1],s[2],1)+'</div>';
+      }
+      o+='</div>';
+    }
+    o+='<button class="btn btn-a" data-a="export" style="width:100%;margin-top:8px">📥 Descargar informe</button>';
+  }
+
+  // ── USERS (admin only) ──
+  if(scr==="users"&&isAdmin()){
+    o+='<button data-a="home" style="background:none;border:none;color:#8a8578;font-size:14px;cursor:pointer;margin-bottom:12px;padding:4px 0">← Inicio</button>';
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">'+
+      '<div><h2 style="font-size:20px">Equipo</h2><p style="font-size:12px;color:#8a8578">'+users.length+' usuarios</p></div>'+
+      '<button class="btn btn-a" data-a="adduser">＋ Nuevo usuario</button></div>';
+    for(var ui=0;ui<users.length;ui++){
+      var u=users[ui];
+      var isMe=u.id===user.id;
+      o+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center">'+
+        '<div><div style="display:flex;gap:6px;align-items:center;margin-bottom:4px">'+
+        '<span style="font-size:15px;font-weight:700">'+esc(u.name)+'</span>'+
+        bdg(u.role==="admin"?"Admin":"Personal",u.role==="admin"?"#c9a96e":"#3b82f6",true)+
+        (isMe?bdg("Tú","#10b981",true):"")+
+        '</div>'+
+        '<p style="margin:0;font-size:12px;color:#8a8578">PIN: '+u.pin+'</p></div>'+
+        (!isMe?'<button class="btn btn-d btn-sm" data-a="deluser:'+ui+'" style="font-size:11px">Eliminar</button>':'')+
+        '</div></div>';
+    }
+    o+='<div class="card" style="background:#faf8f4;border-color:#c9a96e33">'+
+      '<p style="font-size:12px;color:#5c5647;margin-bottom:4px"><b>Permisos por rol:</b></p>'+
+      '<p style="font-size:12px;color:#8a8578;margin:0">'+
+      '<b style="color:#c9a96e">Admin</b> → Crear/eliminar propiedades, inventarios iniciales, revisiones, gestionar equipo<br>'+
+      '<b style="color:#3b82f6">Personal</b> → Solo hacer revisiones de propiedades existentes</p></div>';
+
+    // Add user modal
+    if(modal==="adduser"){
+      o+='<div class="overlay" data-a="closebg">'+
+        '<div class="sheet" data-a="stop">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'+
+        '<h3 style="font-size:18px">Nuevo usuario</h3>'+
+        '<button data-a="closem" style="background:#f0ebe3;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:18px">×</button></div>'+
+        '<div class="mb"><label class="lbl">Nombre *</label><input id="nuN" class="inp" placeholder="Nombre del empleado" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">PIN * (mínimo 4 dígitos)</label><input id="nuP" class="inp" type="text" inputmode="numeric" placeholder="Ej: 1234" autocomplete="off"></div>'+
+        '<div class="mb"><label class="lbl">Rol</label><select id="nuR" class="inp"><option value="personal">Personal (solo revisiones)</option><option value="admin">Administrador (acceso completo)</option></select></div>'+
+        '<button class="btn btn-a" data-a="saveuser" style="width:100%">✓ Crear usuario</button>'+
+        '</div></div>';
+    }
+  }
+
+  // ── CONFIRMATION MODALS ──
+  if(modal==="confirmdel"&&sp){
+    o+='<div class="overlay" data-a="closem">'+
+      '<div class="sheet" data-a="stop" style="text-align:center;padding:32px 20px">'+
+      '<div style="font-size:40px;margin-bottom:12px">🗑</div>'+
+      '<h3 style="font-size:18px;margin-bottom:8px">¿Eliminar propiedad?</h3>'+
+      '<p style="font-size:14px;color:#8a8578;margin-bottom:20px">Se eliminará <b>'+esc(sp.name)+'</b> y todos sus inventarios. No se puede deshacer.</p>'+
+      '<div style="display:flex;gap:8px;justify-content:center">'+
+      '<button class="btn btn-s" data-a="closem" style="flex:1">Cancelar</button>'+
+      '<button class="btn btn-d" data-a="delyes" style="flex:1">Sí, eliminar</button>'+
+      '</div></div></div>';
+  }
+  if(modal&&modal.indexOf("confirmrm:")===0){
+    var rmIdx=parseInt(modal.split(":")[1]);
+    var rmName=(si&&si.zones[az]&&si.zones[az].items[rmIdx])?si.zones[az].items[rmIdx].name:"este elemento";
+    o+='<div class="overlay" data-a="closem">'+
+      '<div class="sheet" data-a="stop" style="text-align:center;padding:32px 20px">'+
+      '<div style="font-size:40px;margin-bottom:12px">⚠️</div>'+
+      '<h3 style="font-size:18px;margin-bottom:8px">¿Eliminar elemento?</h3>'+
+      '<p style="font-size:14px;color:#8a8578;margin-bottom:20px">Se eliminará <b>'+esc(rmName)+'</b></p>'+
+      '<div style="display:flex;gap:8px;justify-content:center">'+
+      '<button class="btn btn-s" data-a="closem" style="flex:1">Cancelar</button>'+
+      '<button class="btn btn-d" data-a="rmyes" style="flex:1">Sí, eliminar</button>'+
+      '</div></div></div>';
+  }
+  if(modal==="confirmfin"){
+    o+='<div class="overlay" data-a="closem">'+
+      '<div class="sheet" data-a="stop" style="text-align:center;padding:32px 20px">'+
+      '<div style="font-size:40px;margin-bottom:12px">✓</div>'+
+      '<h3 style="font-size:18px;margin-bottom:8px">¿Finalizar inventario?</h3>'+
+      '<p style="font-size:14px;color:#8a8578;margin-bottom:20px">Una vez finalizado no podrás añadir ni editar elementos.</p>'+
+      '<div style="display:flex;gap:8px;justify-content:center">'+
+      '<button class="btn btn-s" data-a="closem" style="flex:1">Cancelar</button>'+
+      '<button class="btn btn-ok" data-a="finyes" style="flex:1">Sí, finalizar</button>'+
+      '</div></div></div>';
+  }
+  if(modal==="confirmdeluser"&&editUserIdx!==null&&users[editUserIdx]){
+    o+='<div class="overlay" data-a="closem">'+
+      '<div class="sheet" data-a="stop" style="text-align:center;padding:32px 20px">'+
+      '<div style="font-size:40px;margin-bottom:12px">👤</div>'+
+      '<h3 style="font-size:18px;margin-bottom:8px">¿Eliminar usuario?</h3>'+
+      '<p style="font-size:14px;color:#8a8578;margin-bottom:20px">Se eliminará a <b>'+esc(users[editUserIdx].name)+'</b>. Ya no podrá acceder.</p>'+
+      '<div style="display:flex;gap:8px;justify-content:center">'+
+      '<button class="btn btn-s" data-a="closem" style="flex:1">Cancelar</button>'+
+      '<button class="btn btn-d" data-a="deluseryes" style="flex:1">Sí, eliminar</button>'+
+      '</div></div></div>';
+  }
+
+  o+='</div></div>'; // wrap + scroll
+  root.innerHTML=o;
+}
+
+// INIT
+R();
+
+})();
+</script>
+</body>
+</html>
